@@ -91,7 +91,7 @@ export function Header() {
                 <Link href="/give"><HandHeart className="mr-2 h-4 w-4" /> Donate</Link>
             </Button>
              <Button asChild variant="outline">
-                <Link href="/admin/dashboard">Admin</Link>
+                <Link href="/login">Login</Link>
             </Button>
         </div>
       </div>
