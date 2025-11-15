@@ -29,7 +29,7 @@ export default function GivePage() {
   return (
     <div className="bg-background">
       <header className="container mx-auto px-4 py-16 text-center">
-        <h1 className="text-4xl md:text-5xl font-bold font-headline">Online Giving</h1>
+        <h1 className="text-4xl md:text-5xl font-bold font-headline">Online Donation</h1>
         <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
           Your generosity fuels our mission. Thank you for your faithful support.
         </p>
@@ -38,7 +38,7 @@ export default function GivePage() {
       <main className="container mx-auto px-4 pb-16 flex justify-center">
         <Card className="w-full max-w-2xl">
           <CardHeader>
-            <CardTitle>Give to FaithConnect</CardTitle>
+            <CardTitle>Donate to FaithConnect</CardTitle>
             <CardDescription>Select an amount and payment method below.</CardDescription>
           </CardHeader>
           <CardContent>
@@ -81,7 +81,7 @@ export default function GivePage() {
                         <CreditCard className="mr-2"/> Pay with Card (Stripe)
                    </Button>
                    <Button variant="outline" className="w-full py-6 text-lg" size="lg">
-                        <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2"><title>PayPal</title><path d="M7.332 18.061h2.522l.62-3.953.155-.985.016-.118.001-.002c.038-.239.088-.475.15-.704.05-.18.1-.355.158-.521.121-.345.264-.644.43-.895.167-.25.362-.44.586-.569.224-.128.48-.192.766-.192.31 0 .58.079.812.237.232.158.42.385.563.68.143.295.232.65.267 1.062l-.001.002-.231 1.464-.624 3.953h2.373l.83-5.268h-2.133c-.027.009-.054.016-.08.024l-.002.001c-.138.056-.257.14-.356.253-.099.113-.173.245-.224.397-.05.152-.086.311-.108.478l-.055.353-.156.985-.62 3.953h-2.52l.962-6.108h2.648l.261-1.658H9.196l-.963 6.107zM16.033 18.061h2.52l.962-6.108h-2.52l-.962 6.108zM18.82 10.3h2.648l.288-1.831H19.12l.262-1.658h3.327l-.963 6.108h-2.647l-.262 1.658h-3.326l.962-6.108h2.373zM13.25 10.3h2.648l.288-1.831H13.55l.262-1.658h3.326l-.962 6.108h-2.647l-.262 1.658h-3.326l.962-6.108h2.373z"/></svg>
+                        <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2"><title>PayPal</title><path d="M7.332 18.061h2.522l.62-3.953.155-.985.016-.118.001-.002c.038-.239.088-.475.15-.704.05-.18.1-.355.158-.521.121-.345.264-.644.43-.895.167-.25.362-.44.586-.569.224-.128.48-.192.766-.192.31 0 .58.079.812.237.232.158.42.385.563.68.143.295.232.65.267 1.062l-.001.002-.231 1.464-.624 3.953h2.373l.83-5.268h-2.133c-.027.009-.054.016-.08.024l-.002.001c-.138.056-.257.14-.356.253-.099.113-.173.245-.224.397-.05.152-.086.311-.108.478l-.055.353-.156.985-.62 3.953h-2.52l.962-6.108h2.648l.261-1.658H9.196l-.963 6.107zM16.033 18.061h2.52l.962-6.108h-2.52l-.962 6.108zM18.82 10.3h2.648l.288-1.831H19.12l.262-1.658h3.327l-.963 6.108h-2.647l-.262 1.658h-3.326l.962-6.108h2.373zM13.25 10.3h2.648l.288-1.831H13.55l.262-1.658h3.326l-.962 6.108h-2.647l-.262 16.58h-3.326l.962-6.108h2.373z"/></svg>
                         PayPal
                    </Button>
                    <Button variant="outline" className="w-full py-6 text-lg" size="lg">

@@ -15,7 +15,7 @@ const footerLinks = [
     { title: 'About Us', href: '/about' },
     { title: 'Sermons', href: '/sermons' },
     { title: 'Events', href: '/events' },
-    { title: 'Give', href: '/give' },
+    { title: 'Donate', href: '/give' },
     { title: 'Contact', href: '/contact' },
     { title: 'Live Stream', href: '/live' },
 ];

@@ -144,7 +144,7 @@ export default function Home() {
             Your generosity helps us continue our work in the community and beyond.
            </p>
            <Button asChild size="lg" variant="secondary">
-              <Link href="/give">Give Online</Link>
+              <Link href="/give">Donate Online</Link>
             </Button>
         </div>
       </section>

@@ -57,7 +57,7 @@ export function Header() {
                 ))}
                  <Button asChild className="mt-4">
                    <Link href="/give" onClick={() => setIsMobileMenuOpen(false)}>
-                     <HandHeart className="mr-2" /> Give
+                     <HandHeart className="mr-2" /> Donate
                    </Link>
                  </Button>
               </nav>
@@ -88,7 +88,7 @@ export function Header() {
 
         <div className="flex items-center justify-end gap-2">
             <Button asChild>
-                <Link href="/give"><HandHeart className="mr-2 h-4 w-4" /> Give</Link>
+                <Link href="/give"><HandHeart className="mr-2 h-4 w-4" /> Donate</Link>
             </Button>
              <Button asChild variant="outline">
                 <Link href="/admin/dashboard">Admin</Link>

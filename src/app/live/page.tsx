@@ -62,7 +62,7 @@ export default function LiveStreamPage() {
                 <CardContent>
                     <p>Support our mission and ministries by giving online securely and easily.</p>
                     <Button asChild variant="link" className="mt-2">
-                        <Link href="/give">Give Now</Link>
+                        <Link href="/give">Donate Now</Link>
                     </Button>
                 </CardContent>
             </Card>
