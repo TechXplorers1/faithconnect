@@ -1,19 +1,21 @@
+
+'use client'
 import type { Metadata } from 'next';
 import './globals.css';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { Toaster } from "@/components/ui/toaster";
+import { usePathname } from 'next/navigation';
 
-export const metadata: Metadata = {
-  title: 'FaithConnect',
-  description: 'A modern platform for your church community.',
-};
-
+// Using a client component to conditionally render layout based on path
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathname = usePathname();
+  const isAdminPage = pathname.startsWith('/admin');
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -24,9 +26,9 @@ export default function RootLayout({
       </head>
       <body className="font-body antialiased">
         <div className="flex flex-col min-h-screen">
-          <Header />
+          {!isAdminPage && <Header />}
           <main className="flex-grow">{children}</main>
-          <Footer />
+          {!isAdminPage && <Footer />}
         </div>
         <Toaster />
       </body>
