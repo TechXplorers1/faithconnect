@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { DollarSign, Users, Calendar, Video, ArrowUpRight } from 'lucide-react';
+import { DollarSign, Users, Calendar, Video, HandHeart } from 'lucide-react';
 import { DONATIONS, EVENTS, SERMONS } from '@/lib/placeholder-data';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
