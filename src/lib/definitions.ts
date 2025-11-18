@@ -7,7 +7,8 @@ export type Sermon = {
   audioUrl?: string;
   videoUrl?: string;
   summary: string;
-  coverImage: string;
+  coverImage?: string; // Placeholder ID
+  coverImageUrl?: string; // Data URL for uploaded image
 };
 
 export type Event = {

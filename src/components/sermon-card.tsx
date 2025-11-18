@@ -14,18 +14,20 @@ interface SermonCardProps {
 }
 
 export function SermonCard({ sermon, featured = false }: SermonCardProps) {
-  const sermonImage = PlaceHolderImages.find(p => p.id === sermon.coverImage);
+  const sermonImage = sermon.coverImage ? PlaceHolderImages.find(p => p.id === sermon.coverImage) : null;
+  const imageUrl = sermon.coverImageUrl || sermonImage?.imageUrl;
+
   const cardContent = (
     <>
-      {sermonImage && (
+      {imageUrl && (
         <div className={cn("relative overflow-hidden", featured ? "md:w-1/2" : "w-full h-48")}>
           <Image
-            src={sermonImage.imageUrl}
-            alt={sermonImage.description}
+            src={imageUrl}
+            alt={sermon.title}
             fill
             className="object-cover transition-transform group-hover:scale-105"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            data-ai-hint={sermonImage.imageHint}
+            data-ai-hint={sermonImage?.imageHint}
           />
         </div>
       )}

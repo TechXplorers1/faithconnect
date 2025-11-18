@@ -18,7 +18,8 @@ export default function SermonDetailPage({ params }: { params: { id: string } })
     notFound();
   }
 
-  const sermonImage = PlaceHolderImages.find(p => p.id === sermon.coverImage);
+  const sermonImage = sermon.coverImage ? PlaceHolderImages.find(p => p.id === sermon.coverImage) : null;
+  const imageUrl = sermon.coverImageUrl || sermonImage?.imageUrl;
   const otherSermons = sermons.filter(s => s.id !== sermon.id).slice(0, 2);
 
   return (
@@ -46,13 +47,13 @@ export default function SermonDetailPage({ params }: { params: { id: string } })
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                 ></iframe>
-              ) : sermonImage ? (
+              ) : imageUrl ? (
                  <Image
-                    src={sermonImage.imageUrl}
-                    alt={sermonImage.description}
+                    src={imageUrl}
+                    alt={sermon.title}
                     fill
                     className="object-cover"
-                    data-ai-hint={sermonImage.imageHint}
+                    data-ai-hint={sermonImage?.imageHint}
                 />
               ) : null}
             </div>
@@ -89,13 +90,14 @@ export default function SermonDetailPage({ params }: { params: { id: string } })
             <h2 className="text-2xl font-bold font-headline mb-4">More Sermons</h2>
             <div className="space-y-4">
               {otherSermons.map(other => {
-                const otherImage = PlaceHolderImages.find(p => p.id === other.coverImage);
+                const otherImage = other.coverImage ? PlaceHolderImages.find(p => p.id === other.coverImage) : null;
+                const otherImageUrl = other.coverImageUrl || otherImage?.imageUrl;
                 return (
                     <Link href={`/sermons/${other.id}`} key={other.id} className="group">
                         <Card className="flex items-center gap-4 p-4 transition-shadow hover:shadow-md">
-                        {otherImage && (
+                        {otherImageUrl && (
                             <div className="relative w-24 h-16 rounded-md overflow-hidden shrink-0">
-                                <Image src={otherImage.imageUrl} alt={other.title} fill className="object-cover" data-ai-hint={otherImage.imageHint}/>
+                                <Image src={otherImageUrl} alt={other.title} fill className="object-cover" data-ai-hint={otherImage?.imageHint}/>
                             </div>
                         )}
                         <div>

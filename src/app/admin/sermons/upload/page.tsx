@@ -32,7 +32,7 @@ const formSchema = z.object({
   category: z.string().min(1, "Category is required"),
   summary: z.string().min(20),
   videoUrl: z.string().url().optional().or(z.literal('')),
-  audioFile: z.any().optional(),
+  image: z.any().optional(),
 });
 
 export default function SermonUploadPage() {
@@ -66,20 +66,35 @@ export default function SermonUploadPage() {
   }
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    const newSermon = {
-      ...values,
-      id: Date.now().toString(),
-      coverImage: `sermon-${Math.floor(Math.random() * 4) + 1}`
+    const handleImage = (file: File, callback: (url: string) => void) => {
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                callback(reader.result as string);
+            };
+            reader.readAsDataURL(file);
+        } else {
+            callback(`sermon-${Math.floor(Math.random() * 4) + 1}`);
+        }
     };
-    addSermon(newSermon);
-    
-    toast({
-      title: 'Sermon Uploaded!',
-      description: `"${values.title}" has been successfully added to the library.`,
+
+    handleImage(values.image?.[0], (imageUrl) => {
+        const newSermon = {
+            ...values,
+            id: Date.now().toString(),
+            coverImage: values.image?.[0] ? undefined : imageUrl,
+            coverImageUrl: values.image?.[0] ? imageUrl : undefined,
+        };
+        addSermon(newSermon);
+        
+        toast({
+          title: 'Sermon Uploaded!',
+          description: `"${values.title}" has been successfully added to the library.`,
+        });
+        
+        form.reset();
+        router.push('/admin/sermons');
     });
-    
-    form.reset();
-    router.push('/admin/sermons');
   }
 
   return (
@@ -140,7 +155,7 @@ export default function SermonUploadPage() {
                     
                      <div className="grid md:grid-cols-2 gap-8">
                         <FormField control={form.control} name="videoUrl" render={({ field }) => (<FormItem><FormLabel>Video URL (YouTube, Vimeo)</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
-                        <FormField control={form.control} name="audioFile" render={({ field }) => (<FormItem><FormLabel>Audio File (MP3)</FormLabel><FormControl><Input type="file" {...field} /></FormControl><FormMessage /></FormItem>)} />
+                        <FormField control={form.control} name="image" render={({ field }) => (<FormItem><FormLabel>Cover Image</FormLabel><FormControl><Input type="file" accept="image/*" {...form.register('image')} /></FormControl><FormMessage /></FormItem>)} />
                     </div>
 
                     <Button type="submit">Upload Sermon</Button>
