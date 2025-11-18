@@ -22,6 +22,7 @@ const eventSchema = z.object({
   time: z.string().min(1, 'Time is required'),
   location: z.string().min(3, 'Location is required'),
   description: z.string().min(10, 'Description is required'),
+  image: z.any().optional(),
 });
 
 export default function EventsAdminPage() {
@@ -41,20 +42,35 @@ export default function EventsAdminPage() {
   });
 
   function onSubmit(values: z.infer<typeof eventSchema>) {
-    const newEvent = {
-        ...values,
-        id: Date.now().toString(),
-        image: `event-${Math.floor(Math.random() * 3) + 1}`,
+    const handleImage = (file: File, callback: (url: string | undefined) => void) => {
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                callback(reader.result as string);
+            };
+            reader.readAsDataURL(file);
+        } else {
+            callback(undefined);
+        }
     };
-    addEvent(newEvent);
-    
-    toast({
-      title: 'Event Created!',
-      description: `The event "${values.title}" has been successfully created.`,
-    });
 
-    form.reset();
-    setIsDialogOpen(false);
+    handleImage(values.image?.[0], (imageUrl) => {
+        const newEvent = {
+            ...values,
+            id: Date.now().toString(),
+            image: `event-${Math.floor(Math.random() * 3) + 1}`,
+            imageUrl: imageUrl
+        };
+        addEvent(newEvent);
+        
+        toast({
+          title: 'Event Created!',
+          description: `The event "${values.title}" has been successfully created.`,
+        });
+
+        form.reset();
+        setIsDialogOpen(false);
+    });
   }
 
   return (
@@ -132,6 +148,7 @@ export default function EventsAdminPage() {
                 <FormField control={form.control} name="description" render={({ field }) => (
                   <FormItem><FormLabel>Description</FormLabel><FormControl><Textarea {...field} /></FormControl><FormMessage /></FormItem>
                 )} />
+                <FormField control={form.control} name="image" render={({ field }) => (<FormItem><FormLabel>Cover Image</FormLabel><FormControl><Input type="file" accept="image/*" {...form.register('image')} /></FormControl><FormMessage /></FormItem>)} />
               </div>
               <DialogFooter>
                 <Button variant="outline" type="button" onClick={() => setIsDialogOpen(false)}>Cancel</Button>

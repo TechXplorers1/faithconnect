@@ -18,7 +18,8 @@ export type Event = {
   time: string;
   location: string;
   description: string;
-  image: string;
+  image: string; // Placeholder ID
+  imageUrl?: string; // Data URL for uploaded image
 };
 
 export type Ministry = {

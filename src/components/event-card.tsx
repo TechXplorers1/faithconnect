@@ -11,19 +11,21 @@ interface EventCardProps {
 }
 
 export function EventCard({ event }: EventCardProps) {
-  const eventImage = PlaceHolderImages.find(p => p.id === event.image);
+  const eventImage = !event.imageUrl ? PlaceHolderImages.find(p => p.id === event.image) : null;
+  const imageUrl = event.imageUrl || eventImage?.imageUrl;
+
 
   return (
     <Card className="flex flex-col overflow-hidden transition-all hover:shadow-xl hover:-translate-y-1">
-      {eventImage && (
+      {imageUrl && (
         <div className="relative h-48 w-full">
           <Image
-            src={eventImage.imageUrl}
-            alt={eventImage.description}
+            src={imageUrl}
+            alt={event.title}
             fill
             className="object-cover"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            data-ai-hint={eventImage.imageHint}
+            data-ai-hint={eventImage?.imageHint}
           />
         </div>
       )}
