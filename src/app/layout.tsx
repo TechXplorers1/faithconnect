@@ -6,6 +6,7 @@ import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { Toaster } from "@/components/ui/toaster";
 import { usePathname } from 'next/navigation';
+import { SermonProvider } from '@/context/sermon-context';
 
 // Using a client component to conditionally render layout based on path
 export default function RootLayout({
@@ -25,12 +26,14 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&display=swap" rel="stylesheet" />
       </head>
       <body className="font-body antialiased">
-        <div className="flex flex-col min-h-screen">
-          {!isAdminPage && <Header />}
-          <main className="flex-grow">{children}</main>
-          {!isAdminPage && <Footer />}
-        </div>
-        <Toaster />
+        <SermonProvider>
+          <div className="flex flex-col min-h-screen">
+            {!isAdminPage && <Header />}
+            <main className="flex-grow">{children}</main>
+            {!isAdminPage && <Footer />}
+          </div>
+          <Toaster />
+        </SermonProvider>
       </body>
     </html>
   );

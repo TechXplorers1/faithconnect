@@ -1,12 +1,15 @@
+'use client';
+
 import { SermonCard } from '@/components/sermon-card';
-import { SERMONS } from '@/lib/placeholder-data';
+import { useSermons } from '@/context/sermon-context';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Search } from 'lucide-react';
 
 export default function SermonsPage() {
-  const speakers = [...new Set(SERMONS.map(s => s.speaker))];
-  const categories = [...new Set(SERMONS.map(s => s.category))];
+  const { sermons } = useSermons();
+  const speakers = [...new Set(sermons.map(s => s.speaker))];
+  const categories = [...new Set(sermons.map(s => s.category))];
 
   return (
     <div className="bg-background">
@@ -46,7 +49,7 @@ export default function SermonsPage() {
       
       <main className="container mx-auto px-4 pb-16">
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {SERMONS.map((sermon) => (
+          {sermons.map((sermon) => (
             <SermonCard key={sermon.id} sermon={sermon} />
           ))}
         </div>

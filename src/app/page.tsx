@@ -1,3 +1,5 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -10,10 +12,13 @@ import {
   Clock,
   HandHeart,
 } from 'lucide-react';
-import { LATEST_SERMON, RECENT_EVENTS, MINISTRIES } from '@/lib/placeholder-data';
+import { RECENT_EVENTS, MINISTRIES } from '@/lib/placeholder-data';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
+import { useSermons } from '@/context/sermon-context';
 
 export default function Home() {
+  const { sermons } = useSermons();
+  const latestSermon = sermons[0];
   const heroImage = PlaceHolderImages.find(p => p.id === 'hero-1');
 
   return (
@@ -69,12 +74,12 @@ export default function Home() {
         </div>
       </section>
       
-      {LATEST_SERMON && (
+      {latestSermon && (
         <section id="latest-sermon" className="py-16">
           <div className="container mx-auto px-4 text-center">
             <h2 className="text-3xl font-bold font-headline mb-8">Latest Sermon</h2>
             <div className="max-w-4xl mx-auto">
-              <SermonCard sermon={LATEST_SERMON} featured={true} />
+              <SermonCard sermon={latestSermon} featured={true} />
             </div>
           </div>
         </section>

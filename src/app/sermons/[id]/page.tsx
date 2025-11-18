@@ -1,4 +1,6 @@
-import { SERMONS, SERMONS as OTHER_SERMONS } from '@/lib/placeholder-data';
+'use client';
+
+import { useSermons } from '@/context/sermon-context';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
@@ -9,14 +11,15 @@ import { Mic, Calendar, Lightbulb, FileText, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 
 export default function SermonDetailPage({ params }: { params: { id: string } }) {
-  const sermon = SERMONS.find(s => s.id === params.id);
+  const { sermons } = useSermons();
+  const sermon = sermons.find(s => s.id === params.id);
 
   if (!sermon) {
     notFound();
   }
 
   const sermonImage = PlaceHolderImages.find(p => p.id === sermon.coverImage);
-  const otherSermons = OTHER_SERMONS.filter(s => s.id !== sermon.id).slice(0, 2);
+  const otherSermons = sermons.filter(s => s.id !== sermon.id).slice(0, 2);
 
   return (
     <div className="bg-background">
