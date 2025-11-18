@@ -21,29 +21,24 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import Link from 'next/link';
 import { ArrowLeft, Sparkles, Loader2 } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { generateSermonSummary } from '@/ai/ai-sermon-summaries';
+import { useRouter } from 'next/navigation';
+import { useSermons } from '@/context/sermon-context';
 
 const formSchema = z.object({
   title: z.string().min(5),
   speaker: z.string().min(2),
-  date: z.string(),
-  category: z.string(),
+  date: z.string().min(1, "Date is required"),
+  category: z.string().min(1, "Category is required"),
   summary: z.string().min(20),
   videoUrl: z.string().url().optional().or(z.literal('')),
   audioFile: z.any().optional(),
 });
 
-// Mock AI function
-const generateMockSummary = (title: string): Promise<string> => {
-    return new Promise(resolve => {
-        setTimeout(() => {
-            const summary = `This sermon, titled "${title}," explores profound themes of faith and redemption. It delves into the importance of community, the power of forgiveness, and how ancient scripture provides timeless guidance for modern challenges. Listeners are encouraged to reflect on their personal journey and find strength in shared belief.`;
-            resolve(summary);
-        }, 1500);
-    });
-};
-
 export default function SermonUploadPage() {
   const { toast } = useToast();
+  const router = useRouter();
+  const { addSermon } = useSermons();
   const [isGenerating, setIsGenerating] = useState(false);
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -57,19 +52,34 @@ export default function SermonUploadPage() {
           return;
       }
       setIsGenerating(true);
-      const generatedSummary = await generateMockSummary(title);
-      form.setValue("summary", generatedSummary);
-      setIsGenerating(false);
-      toast({ title: "Summary Generated!", description: "The AI-powered summary has been added."});
+      try {
+        const sermonText = `Sermon Title: ${title}. ${form.getValues('summary')}`;
+        const result = await generateSermonSummary({ sermonText });
+        form.setValue("summary", result.summary);
+        toast({ title: "Summary Generated!", description: "The AI-powered summary has been added."});
+      } catch (error) {
+        console.error(error);
+        toast({ title: "Generation Failed", description: "Could not generate summary.", variant: "destructive" });
+      } finally {
+        setIsGenerating(false);
+      }
   }
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+    const newSermon = {
+      ...values,
+      id: Date.now().toString(),
+      coverImage: `sermon-${Math.floor(Math.random() * 4) + 1}`
+    };
+    addSermon(newSermon);
+    
     toast({
       title: 'Sermon Uploaded!',
       description: `"${values.title}" has been successfully added to the library.`,
     });
+    
     form.reset();
+    router.push('/admin/sermons');
   }
 
   return (
