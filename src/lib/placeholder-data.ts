@@ -1,3 +1,4 @@
+
 import type { Sermon, Event, Ministry, Donation } from './definitions';
 
 export const SERMONS: Sermon[] = [
@@ -77,7 +78,6 @@ export const EVENTS: Event[] = [
   },
 ];
 
-export const RECENT_EVENTS = EVENTS.slice(0, 3);
 
 export const MINISTRIES: Ministry[] = [
     {

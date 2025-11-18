@@ -1,8 +1,12 @@
+'use client';
+
 import { EventCard } from '@/components/event-card';
-import { EVENTS } from '@/lib/placeholder-data';
+import { useEvents } from '@/context/event-context';
 import { CalendarDays } from 'lucide-react';
 
 export default function EventsPage() {
+  const { events } = useEvents();
+
   return (
     <div className="bg-background">
       <header className="container mx-auto px-4 py-16 text-center">
@@ -14,10 +18,10 @@ export default function EventsPage() {
       
       <main className="container mx-auto px-4 pb-16">
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {EVENTS.map((event) => (
+          {events.map((event) => (
             <EventCard key={event.id} event={event} />
           ))}
-          {EVENTS.length === 0 && (
+          {events.length === 0 && (
             <div className="col-span-full text-center py-12 bg-card rounded-lg border">
                 <CalendarDays className="h-12 w-12 mx-auto text-muted-foreground" />
                 <h2 className="mt-4 text-xl font-semibold">No Upcoming Events</h2>

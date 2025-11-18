@@ -12,13 +12,16 @@ import {
   Clock,
   HandHeart,
 } from 'lucide-react';
-import { RECENT_EVENTS, MINISTRIES } from '@/lib/placeholder-data';
+import { MINISTRIES } from '@/lib/placeholder-data';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { useSermons } from '@/context/sermon-context';
+import { useEvents } from '@/context/event-context';
 
 export default function Home() {
   const { sermons } = useSermons();
+  const { events } = useEvents();
   const latestSermon = sermons[0];
+  const recentEvents = events.slice(0, 3);
   const heroImage = PlaceHolderImages.find(p => p.id === 'hero-1');
 
   return (
@@ -94,7 +97,7 @@ export default function Home() {
             </Button>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {RECENT_EVENTS.map((event) => (
+            {recentEvents.map((event) => (
               <EventCard key={event.id} event={event} />
             ))}
           </div>

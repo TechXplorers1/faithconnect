@@ -2,7 +2,6 @@
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { EVENTS } from '@/lib/placeholder-data';
 import { Button } from '@/components/ui/button';
 import { PlusCircle, MoreHorizontal } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
@@ -14,17 +13,21 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
+import { useEvents } from '@/context/event-context';
+import { Textarea } from '@/components/ui/textarea';
 
 const eventSchema = z.object({
   title: z.string().min(3, 'Title must be at least 3 characters long'),
   date: z.string().min(1, 'Date is required'),
   time: z.string().min(1, 'Time is required'),
   location: z.string().min(3, 'Location is required'),
+  description: z.string().min(10, 'Description is required'),
 });
 
 export default function EventsAdminPage() {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { toast } = useToast();
+  const { events, addEvent } = useEvents();
 
   const form = useForm<z.infer<typeof eventSchema>>({
     resolver: zodResolver(eventSchema),
@@ -33,15 +36,23 @@ export default function EventsAdminPage() {
       date: '',
       time: '',
       location: '',
+      description: '',
     },
   });
 
   function onSubmit(values: z.infer<typeof eventSchema>) {
-    console.log('New event created:', values);
+    const newEvent = {
+        ...values,
+        id: Date.now().toString(),
+        image: `event-${Math.floor(Math.random() * 3) + 1}`,
+    };
+    addEvent(newEvent);
+    
     toast({
       title: 'Event Created!',
       description: `The event "${values.title}" has been successfully created.`,
     });
+
     form.reset();
     setIsDialogOpen(false);
   }
@@ -69,7 +80,7 @@ export default function EventsAdminPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {EVENTS.map(event => (
+              {events.map(event => (
                 <TableRow key={event.id}>
                   <TableCell className="font-medium">{event.title}</TableCell>
                   <TableCell>{new Date(event.date).toLocaleDateString()}</TableCell>
@@ -107,32 +118,19 @@ export default function EventsAdminPage() {
               </DialogHeader>
               <div className="grid gap-4 py-4">
                 <FormField control={form.control} name="title" render={({ field }) => (
-                  <FormItem className="grid grid-cols-4 items-center gap-4">
-                    <FormLabel className="text-right">Title</FormLabel>
-                    <FormControl><Input {...field} className="col-span-3" /></FormControl>
-                    <FormMessage className="col-span-4 pl-[calc(25%+1rem)]" />
-                  </FormItem>
+                  <FormItem><FormLabel>Title</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
                 )} />
                 <FormField control={form.control} name="date" render={({ field }) => (
-                  <FormItem className="grid grid-cols-4 items-center gap-4">
-                    <FormLabel className="text-right">Date</FormLabel>
-                    <FormControl><Input type="date" {...field} className="col-span-3" /></FormControl>
-                     <FormMessage className="col-span-4 pl-[calc(25%+1rem)]" />
-                  </FormItem>
+                  <FormItem><FormLabel>Date</FormLabel><FormControl><Input type="date" {...field} /></FormControl><FormMessage /></FormItem>
                 )} />
                 <FormField control={form.control} name="time" render={({ field }) => (
-                  <FormItem className="grid grid-cols-4 items-center gap-4">
-                    <FormLabel className="text-right">Time</FormLabel>
-                    <FormControl><Input type="time" {...field} className="col-span-3" /></FormControl>
-                     <FormMessage className="col-span-4 pl-[calc(25%+1rem)]" />
-                  </FormItem>
+                  <FormItem><FormLabel>Time</FormLabel><FormControl><Input type="time" {...field} /></FormControl><FormMessage /></FormItem>
                 )} />
                  <FormField control={form.control} name="location" render={({ field }) => (
-                  <FormItem className="grid grid-cols-4 items-center gap-4">
-                    <FormLabel className="text-right">Location</FormLabel>
-                    <FormControl><Input {...field} className="col-span-3" /></FormControl>
-                     <FormMessage className="col-span-4 pl-[calc(25%+1rem)]" />
-                  </FormItem>
+                  <FormItem><FormLabel>Location</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
+                )} />
+                <FormField control={form.control} name="description" render={({ field }) => (
+                  <FormItem><FormLabel>Description</FormLabel><FormControl><Textarea {...field} /></FormControl><FormMessage /></FormItem>
                 )} />
               </div>
               <DialogFooter>

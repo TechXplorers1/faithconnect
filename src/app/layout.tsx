@@ -7,6 +7,7 @@ import { Footer } from '@/components/layout/footer';
 import { Toaster } from "@/components/ui/toaster";
 import { usePathname } from 'next/navigation';
 import { SermonProvider } from '@/context/sermon-context';
+import { EventProvider } from '@/context/event-context';
 
 // Using a client component to conditionally render layout based on path
 export default function RootLayout({
@@ -27,12 +28,14 @@ export default function RootLayout({
       </head>
       <body className="font-body antialiased">
         <SermonProvider>
-          <div className="flex flex-col min-h-screen">
-            {!isAdminPage && <Header />}
-            <main className="flex-grow">{children}</main>
-            {!isAdminPage && <Footer />}
-          </div>
-          <Toaster />
+          <EventProvider>
+            <div className="flex flex-col min-h-screen">
+              {!isAdminPage && <Header />}
+              <main className="flex-grow">{children}</main>
+              {!isAdminPage && <Footer />}
+            </div>
+            <Toaster />
+          </EventProvider>
         </SermonProvider>
       </body>
     </html>
