@@ -28,7 +28,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col">
-      <section className="relative h-[60vh] md:h-[70vh] flex items-center justify-center text-center text-white">
+      <section className="relative h-[70vh] md:h-[85vh] flex items-center justify-center text-center text-white">
         {heroImage && (
            <Image
             src={heroImage.imageUrl}
@@ -39,50 +39,53 @@ export default function Home() {
             data-ai-hint={heroImage.imageHint}
           />
         )}
-        <div className="absolute inset-0 bg-black/50" />
-        <div className="relative z-10 p-4">
-          <h1 className="text-4xl md:text-6xl font-bold font-headline drop-shadow-lg">
-            Welcome to FaithConnect
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-black/20" />
+        <div className="relative z-10 p-4 max-w-4xl mx-auto">
+          <h1 className="text-4xl md:text-6xl font-bold font-headline drop-shadow-lg leading-tight">
+            Connecting People to Faith, Community, and Purpose
           </h1>
-          <p className="mt-4 text-lg md:text-xl max-w-2xl mx-auto drop-shadow-md">
-            Connecting our community through faith, fellowship, and service.
+          <p className="mt-6 text-lg md:text-xl max-w-2xl mx-auto drop-shadow-md">
+            Welcome to FaithConnect, a place to belong and grow. Join us this Sunday for an inspiring message of hope and community.
           </p>
-           <Button asChild size="lg" className="mt-8">
-            <Link href="/sermons">Watch Latest Sermon</Link>
+           <Button asChild size="lg" className="mt-8 group">
+            <Link href="/sermons">
+              Watch The Latest Sermon <ArrowRight className="ml-2 transition-transform group-hover:translate-x-1" />
+            </Link>
           </Button>
         </div>
       </section>
 
-      <section id="service-times" className="py-16 bg-card">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold font-headline mb-8">Join Our Services</h2>
-          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            <Card className="text-left">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2"><Clock /> Sunday Service</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-lg">Every Sunday at 10:00 AM</p>
-                <p className="text-muted-foreground">Join us for a time of worship, teaching, and community.</p>
-              </CardContent>
-            </Card>
-            <Card className="text-left">
-               <CardHeader>
-                <CardTitle className="flex items-center gap-2"><MapPin /> Location</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-lg">123 Faith Ave, Community City, 12345</p>
-                <Link href="/visit" className="text-primary hover:underline">Get Directions</Link>
-              </CardContent>
-            </Card>
-          </div>
+      <section id="service-times" className="py-16 bg-background">
+        <div className="container mx-auto px-4">
+            <div className="bg-card p-8 rounded-lg shadow-md border max-w-5xl mx-auto">
+                 <div className="grid md:grid-cols-3 gap-8 text-center">
+                    <div className="flex flex-col items-center">
+                        <Clock className="h-10 w-10 text-primary mb-3" />
+                        <h3 className="text-xl font-bold font-headline">Sunday Service</h3>
+                        <p className="text-muted-foreground">10:00 AM</p>
+                    </div>
+                     <div className="flex flex-col items-center">
+                        <MapPin className="h-10 w-10 text-primary mb-3" />
+                        <h3 className="text-xl font-bold font-headline">Our Location</h3>
+                        <p className="text-muted-foreground">123 Faith Ave, Community City</p>
+                    </div>
+                     <div className="flex flex-col items-center">
+                        <Church className="h-10 w-10 text-primary mb-3" />
+                        <h3 className="text-xl font-bold font-headline">New Here?</h3>
+                        <Link href="/visit" className="text-primary hover:underline">Plan Your Visit</Link>
+                    </div>
+                 </div>
+            </div>
         </div>
       </section>
       
       {latestSermon && (
-        <section id="latest-sermon" className="py-16">
+        <section id="latest-sermon" className="py-16 bg-card">
           <div className="container mx-auto px-4 text-center">
-            <h2 className="text-3xl font-bold font-headline mb-8">Latest Sermon</h2>
+            <h2 className="text-3xl font-bold font-headline mb-2">Latest Message</h2>
+             <p className="max-w-2xl mx-auto text-muted-foreground mb-8">
+                Catch up on our most recent sermon and dive deeper into the Word.
+            </p>
             <div className="max-w-4xl mx-auto">
               <SermonCard sermon={latestSermon} featured={true} />
             </div>
@@ -90,7 +93,7 @@ export default function Home() {
         </section>
       )}
 
-      <section id="upcoming-events" className="py-16 bg-card">
+      <section id="upcoming-events" className="py-16 bg-background">
         <div className="container mx-auto px-4">
           <div className="flex justify-between items-center mb-8">
             <h2 className="text-3xl font-bold font-headline">Upcoming Events</h2>
@@ -104,7 +107,7 @@ export default function Home() {
                   <EventCard key={event.id} event={event} />
                 ))
             ) : (
-                <div className="col-span-full text-center py-12 bg-background rounded-lg border">
+                <div className="col-span-full text-center py-12 bg-card rounded-lg border">
                     <CalendarDays className="h-12 w-12 mx-auto text-muted-foreground" />
                     <h2 className="mt-4 text-xl font-semibold">No Upcoming Events</h2>
                     <p className="mt-2 text-muted-foreground">Please check back soon for new events!</p>
@@ -114,9 +117,9 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="ministries" className="py-16">
+      <section id="ministries" className="py-16 bg-card">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold font-headline mb-8">Our Ministries</h2>
+          <h2 className="text-3xl font-bold font-headline mb-2">Find Your Community</h2>
           <p className="max-w-2xl mx-auto text-muted-foreground mb-12">
             There's a place for everyone at FaithConnect. Discover a ministry where you can grow, serve, and belong.
           </p>
@@ -154,7 +157,7 @@ export default function Home() {
         </div>
       </section>
       
-      <section id="giving" className="py-16 bg-primary text-primary-foreground">
+      <section id="giving" className="py-20 bg-primary text-primary-foreground">
         <div className="container mx-auto px-4 text-center">
            <HandHeart className="mx-auto h-12 w-12 mb-4"/>
            <h2 className="text-3xl font-bold font-headline mb-4">Support Our Mission</h2>
@@ -167,12 +170,12 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="visit" className="py-16 bg-card">
+       <section id="visit" className="py-20 bg-background">
         <div className="container mx-auto px-4 text-center">
             <Church className="mx-auto h-12 w-12 mb-4 text-primary"/>
-            <h2 className="text-3xl font-bold font-headline mb-4">New Here?</h2>
+            <h2 className="text-3xl font-bold font-headline mb-4">Ready to Visit?</h2>
             <p className="max-w-2xl mx-auto text-muted-foreground mb-8">
-                We'd love to meet you. Plan your visit to experience our community firsthand.
+                We'd love to meet you in person. Plan your visit this Sunday and experience our community firsthand.
             </p>
             <Button asChild size="lg">
                 <Link href="/visit">Plan Your Visit <ArrowRight className="ml-2" /></Link>

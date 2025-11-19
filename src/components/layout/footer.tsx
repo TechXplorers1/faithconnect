@@ -18,6 +18,7 @@ const footerLinks = [
     { title: 'Donate', href: '/give' },
     { title: 'Contact', href: '/contact' },
     { title: 'Live Stream', href: '/live' },
+    { title: 'Visit', href: '/visit' },
 ];
 
 export function Footer() {
