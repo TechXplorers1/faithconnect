@@ -1,3 +1,4 @@
+
 'use client';
 
 import Image from 'next/image';
@@ -31,7 +32,7 @@ export default function Home() {
         className="relative h-[70vh] md:h-[85vh] flex items-center justify-center text-center text-white bg-cover bg-center"
         style={{ backgroundImage: "url('https://images.unsplash.com/photo-1507692049440-a54f85a837a5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxjaHVyY2h8ZW58MHx8fHwxNzYzOTMwMzIxfDA&ixlib=rb-4.1.0&q=80&w=1080')" }}
       >
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-black/20" />
+        <div className="absolute inset-0 bg-black/50" />
         <div className="relative z-10 p-4 max-w-4xl mx-auto">
           <h1 className="text-4xl md:text-6xl font-bold font-headline drop-shadow-lg leading-tight">
             Connecting People to Faith, Community, and Purpose
