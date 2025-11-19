@@ -15,6 +15,7 @@ const navLinks = [
   { href: '/ministries', label: 'Ministries' },
   { href: '/sermons', label: 'Sermons' },
   { href: '/events', label: 'Events' },
+  { href: '/live', label: 'Live' },
   { href: '/contact', label: 'Contact' },
 ];
 
@@ -23,7 +24,7 @@ export function Header() {
   const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b bg-background">
       <div className="container flex h-16 items-center">
         <div className="mr-4 hidden md:flex">
           <Logo />

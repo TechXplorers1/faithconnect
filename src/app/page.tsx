@@ -11,6 +11,8 @@ import {
   MapPin,
   Clock,
   HandHeart,
+  CalendarDays,
+  Church,
 } from 'lucide-react';
 import { MINISTRIES } from '@/lib/placeholder-data';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
@@ -45,8 +47,8 @@ export default function Home() {
           <p className="mt-4 text-lg md:text-xl max-w-2xl mx-auto drop-shadow-md">
             Connecting our community through faith, fellowship, and service.
           </p>
-          <Button asChild size="lg" className="mt-8 bg-accent text-accent-foreground hover:bg-accent/90">
-            <Link href="/visit">New Here? Plan Your Visit <ArrowRight className="ml-2" /></Link>
+           <Button asChild size="lg" className="mt-8">
+            <Link href="/sermons">Watch Latest Sermon</Link>
           </Button>
         </div>
       </section>
@@ -97,9 +99,17 @@ export default function Home() {
             </Button>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {recentEvents.map((event) => (
-              <EventCard key={event.id} event={event} />
-            ))}
+            {recentEvents.length > 0 ? (
+                recentEvents.map((event) => (
+                  <EventCard key={event.id} event={event} />
+                ))
+            ) : (
+                <div className="col-span-full text-center py-12 bg-background rounded-lg border">
+                    <CalendarDays className="h-12 w-12 mx-auto text-muted-foreground" />
+                    <h2 className="mt-4 text-xl font-semibold">No Upcoming Events</h2>
+                    <p className="mt-2 text-muted-foreground">Please check back soon for new events!</p>
+                </div>
+            )}
           </div>
         </div>
       </section>
@@ -156,6 +166,19 @@ export default function Home() {
             </Button>
         </div>
       </section>
+
+      <section id="visit" className="py-16 bg-card">
+        <div className="container mx-auto px-4 text-center">
+            <Church className="mx-auto h-12 w-12 mb-4 text-primary"/>
+            <h2 className="text-3xl font-bold font-headline mb-4">New Here?</h2>
+            <p className="max-w-2xl mx-auto text-muted-foreground mb-8">
+                We'd love to meet you. Plan your visit to experience our community firsthand.
+            </p>
+            <Button asChild size="lg">
+                <Link href="/visit">Plan Your Visit <ArrowRight className="ml-2" /></Link>
+            </Button>
+        </div>
+       </section>
     </div>
   );
 }
