@@ -20,6 +20,7 @@ import {
     Mail,
     LogOut,
     Radio,
+    Group,
 } from "lucide-react";
 import { Separator } from "../ui/separator";
 
@@ -27,6 +28,7 @@ const adminNavItems = [
     { href: '/admin/dashboard', label: 'Dashboard', icon: LayoutDashboard },
     { href: '/admin/sermons', label: 'Sermons', icon: Video },
     { href: '/admin/events', label: 'Events', icon: Calendar },
+    { href: '/admin/ministries', label: 'Ministries', icon: Group },
     { href: '/admin/donations', label: 'Donations', icon: HandHeart },
     { href: '/admin/live-stream', label: 'Live Stream', icon: Radio },
     { href: '/admin/newsletter', label: 'Newsletter', icon: Mail },
