@@ -2,9 +2,9 @@
   "placeholderImages": [
     {
       "id": "hero-1",
-      "description": "A diverse group of people in a church service, smiling and engaged, with beautiful lighting.",
-      "imageUrl": "https://images.unsplash.com/photo-1544383835-bda2bc6899b7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxjaHVyY2glMjB3b3JzaGlwfGVufDB8fHx8MTc2MzIwMDgxOXww&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "church worship"
+      "description": "A person with arms raised in worship in a sunlit field, representing faith and freedom.",
+      "imageUrl": "https://images.unsplash.com/photo-1488998427799-e3362cec87c3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHx3b3JzaGlwfGVufDB8fHx8MTc2MzIwMDgxOXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "worship freedom"
     },
     {
       "id": "sermon-1",
@@ -87,7 +87,7 @@
     {
       "id": "give-header",
       "description": "Hands holding a heart shaped object.",
-      "imageUrl": "https://images.unsplash.com/photo-1579208575657-c595a05383b7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxoYW5kcyUyMGhlYXJ0fGVufDB8fHx8MTc2MzE0MDUwN3ww&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1579208575657-c595a05383b7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxoYW5kcyUyMGhlYXJ0fGVufDB8fHx8MTc2MzE0MDUwN3ww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "hands heart"
     },
     {
