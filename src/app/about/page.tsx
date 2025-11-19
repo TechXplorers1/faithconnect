@@ -10,6 +10,25 @@ const leadership = [
   { name: 'Maria Garcia', title: 'Children\'s Ministry Director', avatar: 'MG' },
 ];
 
+const coreValues = [
+    {
+        title: 'Gospel-Centered',
+        description: 'The good news of Jesus is the foundation of everything we do.',
+    },
+    {
+        title: 'Authentic Community',
+        description: 'We are committed to being a church family that is real and relational.',
+    },
+    {
+        title: 'Sacrificial Service',
+        description: 'We joyfully give of our time, talents, and resources to serve God and others.',
+    },
+    {
+        title: 'Missional Living',
+        description: 'We are called to share the love of Christ in our neighborhoods and to the nations.',
+    }
+];
+
 export default function AboutPage() {
   const aboutImage = PlaceHolderImages.find(p => p.id === 'about-us');
 
@@ -65,6 +84,20 @@ export default function AboutPage() {
               </CardContent>
             </Card>
           </div>
+        </div>
+      </section>
+
+      <section className="container mx-auto px-4 pb-16">
+        <h2 className="text-3xl font-bold font-headline text-center mb-12">Our Core Values</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+          {coreValues.map(value => (
+            <Card key={value.title}>
+              <CardContent className="p-6 text-center">
+                <h3 className="text-xl font-semibold mb-2">{value.title}</h3>
+                <p className="text-muted-foreground">{value.description}</p>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       </section>
 
