@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { DollarSign, Users, Calendar, Video, HandHeart } from 'lucide-react';
+import { DollarSign, Users, Calendar, Video, HandHeart, Radio } from 'lucide-react';
 import { DONATIONS, EVENTS, SERMONS } from '@/lib/placeholder-data';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 
@@ -98,7 +98,7 @@ export default function AdminDashboard() {
                     <Link href="/admin/sermons"><Button variant="outline" className="w-full justify-start p-4 h-auto"><Video className="mr-2"/> Manage Sermons</Button></Link>
                     <Link href="/admin/events"><Button variant="outline" className="w-full justify-start p-4 h-auto"><Calendar className="mr-2"/> Manage Events</Button></Link>
                     <Link href="/admin/donations"><Button variant="outline" className="w-full justify-start p-4 h-auto"><HandHeart className="mr-2"/> View Donations</Button></Link>
-                    <Link href="/admin/users"><Button variant="outline" className="w-full justify-start p-4 h-auto"><Users className="mr-2"/> Manage Users</Button></Link>
+                    <Link href="/admin/live-stream"><Button variant="outline" className="w-full justify-start p-4 h-auto"><Radio className="mr-2"/> Manage Live Stream</Button></Link>
                 </div>
             </CardContent>
         </Card>
