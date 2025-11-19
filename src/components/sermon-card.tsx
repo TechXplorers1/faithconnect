@@ -29,6 +29,9 @@ export function SermonCard({ sermon, featured = false }: SermonCardProps) {
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             data-ai-hint={sermonImage?.imageHint}
           />
+          <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors flex items-center justify-center">
+            <PlayCircle className="h-16 w-16 text-white/80 transform transition-transform group-hover:scale-110" />
+          </div>
         </div>
       )}
       <div className={cn("flex flex-col", featured ? "md:w-1/2" : "w-full")}>
