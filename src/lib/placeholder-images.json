@@ -1,6 +1,12 @@
 {
   "placeholderImages": [
     {
+      "id": "hero-main",
+      "description": "A beautiful and modern church interior with warm lighting, looking towards the altar.",
+      "imageUrl": "https://images.unsplash.com/photo-1507692049440-a54f85a837a5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxjaHVyY2h8ZW58MHx8fHwxNzYzOTMwMzIxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "church interior"
+    },
+    {
       "id": "hero-1",
       "description": "The sunlit interior of a modern church with pews and stained glass windows.",
       "imageUrl": "https://images.unsplash.com/photo-1507692049440-a54f85a837a5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxjaHVyY2h8ZW58MHx8fHwxNzYzOTMwMzIxfDA&ixlib=rb-4.1.0&q=80&w=1080",
@@ -57,44 +63,32 @@
     {
       "id": "ministry-2",
       "description": "Teenagers in a circle for a youth group discussion.",
-      "imageUrl": "https://images.unsplash.com/photo-1566135235200-616a028972c9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHx5b3V0aCUyMGdyb3VwfGVufDB8fHx8MTc2MzE5OTY0Nnww&ixlibrb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1566135235200-616a028972c9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHx5b3V0aCUyMGdyb3VwfGVufDB8fHx8MTc2MzE5OTY0Nnww&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "youth group"
     },
     {
       "id": "ministry-3",
       "description": "A group of adults in a small group bible study.",
-      "imageUrl": "https://images.unsplash.com/photo-1559534703-e191bce0d946?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxiaWJsZSUyMHN0dWR5fGVufDB8fHx8MTc2MzEwMDA4M3ww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1559534703-e191bce0d946?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxiaWJsZSUyMHN0dWR5fGVufDB8fHx8MTc2MzEwMDA4M3ww&ixlib-rb-4.1.0&q=80&w=1080",
       "imageHint": "bible study"
     },
     {
       "id": "ministry-4",
-      "description": "A worship band playing music on a stage.",
-      "imageUrl": "https://images.unsplash.com/photo-1580586277034-9913114ac737?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHx3b3JzaGlwJTIwYmFuZHxlbnwwfHx8fDE3NjMyMDA4MTl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "description": "A praise band leading worship on a stage.",
+      "imageUrl": "https://images.unsplash.com/photo-1583795310237-3d8495426d15?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHx3b3JzaGlwJTIwYmFuZHxlbnwwfHx8fDE3NjMwOTcyMDh8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "worship band"
     },
     {
       "id": "about-us",
-      "description": "The exterior of a modern church building on a sunny day.",
-      "imageUrl": "https://images.unsplash.com/photo-1644055283810-8252efafd612?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxjaHVyY2glMjBleHRlcmlvcnxlbnwwfHx8fDE3NjMyMDA4MTl8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "church exterior"
-    },
-    {
-      "id": "contact-header",
-      "description": "A friendly person smiling and wearing a headset in a call center.",
-      "imageUrl": "https://images.unsplash.com/photo-1521898284481-a5ec348cb555?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxjdXN0b21lciUyMHN1cHBvcnR8ZW58MHx8fHwxNzYzMTA2ODk4fDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "customer support"
-    },
-    {
-      "id": "give-header",
-      "description": "Hands holding a heart shaped object.",
-      "imageUrl": "https://images.unsplash.com/photo-1579208575657-c595a05383b7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxoYW5kcyUyMGhlYXJ0fGVufDB8fHx8MTc2MzE0MDUwN3ww&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "hands heart"
+      "description": "A diverse group of people smiling and laughing together.",
+      "imageUrl": "https://images.unsplash.com/photo-1530789253388-582c481c54b0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxkaXZlcnNlJTIwY29tbXVuaXR5fGVufDB8fHx8MTc2MzA5NzU2OHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "diverse community"
     },
     {
       "id": "live-stream-header",
-      "description": "A professional video camera set up for live streaming an event.",
-      "imageUrl": "https://images.unsplash.com/photo-1493804714600-6edb1cd93080?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHx2aWRlbyUyMGNhbWVyYXxlbnwwfHx8fDE3NjMxNDMyNDZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "video camera"
+      "description": "A professional video camera recording a live event in a church.",
+      "imageUrl": "https://images.unsplash.com/photo-1628177341996-2397a73e6b72?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxsaXZlJTIwc3RyZWFtJTIwY2h1cmNofGVufDB8fHx8MTc2MzE5NzMyNnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "live stream"
     }
   ]
 }

@@ -25,13 +25,23 @@ export default function Home() {
   const { events } = useEvents();
   const latestSermon = sermons[0];
   const recentEvents = events.slice(0, 3);
+  const heroImage = PlaceHolderImages.find(p => p.id === 'hero-main');
   
   return (
     <div className="flex flex-col">
       <section
-        className="relative h-[70vh] flex items-center justify-center text-center text-white bg-cover bg-center"
-        style={{ backgroundImage: "url('https://images.unsplash.com/photo-1542626991-a2f575a45b67?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxjb21tdW5pdHklMjBldmVudHxlbnwwfHx8fDE3NzAwNzM1ODZ8MA&ixlib=rb-4.1.0&q=80&w=1080')" }}
+        className="relative h-[50vh] flex items-center justify-center text-center text-white"
       >
+        {heroImage && (
+            <Image
+                src={heroImage.imageUrl}
+                alt={heroImage.description}
+                fill
+                className="object-cover"
+                data-ai-hint={heroImage.imageHint}
+                priority
+            />
+        )}
         <div className="absolute inset-0 bg-black/50" />
         <div className="relative z-10 p-4 max-w-4xl mx-auto">
           <h1 className="text-4xl md:text-6xl font-bold font-headline drop-shadow-lg leading-tight">
