@@ -59,29 +59,17 @@ export default function EditMinistryPage() {
   }
 
   function onSubmit(values: z.infer<typeof ministrySchema>) {
-    const hasNewImage = values.image && values.image.length > 0;
+    const imageFile = values.image && values.image.length > 0 ? values.image[0] : undefined;
 
-    const handleImage = (file: File | undefined, callback: (imageUrl?: string, imageId?: string) => void) => {
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                callback(reader.result as string, undefined);
-            };
-            reader.readAsDataURL(file);
-        } else {
-            callback(ministry.imageUrl, ministry.image);
-        }
-    };
-
-    handleImage(hasNewImage ? values.image[0] : undefined, (newImageUrl, imageId) => {
+    const processUpdate = (imageUrl?: string, imageId?: string) => {
         const updatedMinistry: Ministry = {
             ...ministry,
             ...values,
-            imageUrl: newImageUrl,
+            imageUrl: imageUrl,
             image: imageId || '',
         };
 
-        if (hasNewImage) {
+        if (imageFile) {
             updatedMinistry.image = '';
         }
 
@@ -93,7 +81,17 @@ export default function EditMinistryPage() {
         });
 
         router.push('/admin/ministries');
-    });
+    };
+
+    if (imageFile) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            processUpdate(reader.result as string, undefined);
+        };
+        reader.readAsDataURL(imageFile);
+    } else {
+        processUpdate(ministry.imageUrl, ministry.image);
+    }
   }
 
   return (
@@ -135,5 +133,3 @@ export default function EditMinistryPage() {
     </div>
   );
 }
-
-    

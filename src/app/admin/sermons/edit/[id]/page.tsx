@@ -86,30 +86,17 @@ export default function SermonEditPage() {
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     if (!sermon) return;
+    const imageFile = values.image && values.image.length > 0 ? values.image[0] : undefined;
 
-    const hasNewImage = values.image && values.image.length > 0;
-
-    const handleImage = (file: File | undefined, callback: (imageUrl?: string, coverImageId?: string) => void) => {
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                callback(reader.result as string, undefined);
-            };
-            reader.readAsDataURL(file);
-        } else {
-            callback(sermon.coverImageUrl, sermon.coverImage);
-        }
-    };
-
-    handleImage(hasNewImage ? values.image[0] : undefined, (newImageUrl, coverImageId) => {
+    const processUpdate = (imageUrl?: string, imageId?: string) => {
         const updatedSermon: Sermon = {
             ...sermon,
             ...values,
-            coverImageUrl: newImageUrl,
-            coverImage: coverImageId,
+            coverImageUrl: imageUrl,
+            coverImage: imageId,
         };
 
-        if (hasNewImage) {
+        if (imageFile) {
             delete updatedSermon.coverImage;
         }
 
@@ -121,7 +108,17 @@ export default function SermonEditPage() {
         });
         
         router.push('/admin/sermons');
-    });
+    };
+
+    if (imageFile) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            processUpdate(reader.result as string, undefined);
+        };
+        reader.readAsDataURL(imageFile);
+    } else {
+        processUpdate(sermon.coverImageUrl, sermon.coverImage);
+    }
   }
 
   if (!sermon) {
@@ -200,5 +197,3 @@ export default function SermonEditPage() {
     </div>
   );
 }
-
-    

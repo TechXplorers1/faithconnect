@@ -66,30 +66,19 @@ export default function EditEventPage() {
   }
 
   function onSubmit(values: z.infer<typeof eventSchema>) {
-    const hasNewImage = values.image && values.image.length > 0;
-    
-    const handleImage = (file: File | undefined, callback: (imageUrl?: string, imageId?: string) => void) => {
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                callback(reader.result as string, undefined);
-            };
-            reader.readAsDataURL(file);
-        } else {
-            callback(event.imageUrl, event.image);
-        }
-    };
+    const imageFile = values.image && values.image.length > 0 ? values.image[0] : undefined;
 
-    handleImage(hasNewImage ? values.image[0] : undefined, (newImageUrl, imageId) => {
+    const processUpdate = (imageUrl?: string, imageId?: string) => {
         const updatedEvent: Event = {
             ...event,
             ...values,
-            imageUrl: newImageUrl,
+            imageUrl: imageUrl,
             image: imageId || '',
         };
-        if(hasNewImage) {
+        if(imageFile) {
             updatedEvent.image = '';
         }
+
         updateEvent(updatedEvent);
         
         toast({
@@ -98,7 +87,17 @@ export default function EditEventPage() {
         });
 
         router.push('/admin/events');
-    });
+    };
+
+    if (imageFile) {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+            processUpdate(reader.result as string, undefined);
+        };
+        reader.readAsDataURL(imageFile);
+    } else {
+        processUpdate(event.imageUrl, event.image);
+    }
   }
 
   return (
@@ -148,5 +147,3 @@ export default function EditEventPage() {
     </div>
   );
 }
-
-    
