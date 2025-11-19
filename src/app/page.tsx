@@ -30,27 +30,20 @@ export default function Home() {
   return (
     <div className="flex flex-col">
       <section
-        className="relative h-[50vh] flex items-center justify-center text-center text-white"
+        className="relative h-[60vh] flex items-center justify-center text-center bg-cover bg-center"
+        style={{
+          backgroundImage: "url('https://images.unsplash.com/photo-1507692049440-a54f85a837a5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxjaHVyY2h8ZW58MHx8fHwxNzYzOTMwMzIxfDA&ixlib=rb-4.1.0&q=80&w=1080')",
+        }}
       >
-        {heroImage && (
-            <Image
-                src={heroImage.imageUrl}
-                alt={heroImage.description}
-                fill
-                className="object-cover"
-                data-ai-hint={heroImage.imageHint}
-                priority
-            />
-        )}
-        <div className="absolute inset-0 bg-black/50" />
-        <div className="relative z-10 p-4 max-w-4xl mx-auto">
+        <div className="absolute inset-0 bg-black/60" />
+        <div className="relative z-10 p-4 max-w-4xl mx-auto text-white">
           <h1 className="text-4xl md:text-6xl font-bold font-headline drop-shadow-lg leading-tight">
             Connecting People to Faith, Community, and Purpose
           </h1>
           <p className="mt-6 text-lg md:text-xl max-w-2xl mx-auto drop-shadow-md">
             Welcome to FaithConnect, a place to belong and grow. Join us this Sunday for an inspiring message of hope and community.
           </p>
-           <Button asChild size="lg" className="mt-8 group">
+           <Button asChild size="lg" className="mt-8 group bg-accent hover:bg-accent/90 text-accent-foreground">
             <Link href="/sermons">
               Watch The Latest Sermon <ArrowRight className="ml-2 transition-transform group-hover:translate-x-1" />
             </Link>
@@ -154,7 +147,7 @@ export default function Home() {
               )
             })}
           </div>
-           <Button asChild size="lg" className="mt-12">
+           <Button asChild size="lg" className="mt-12 bg-accent hover:bg-accent/90 text-accent-foreground">
               <Link href="/ministries">Explore All Ministries</Link>
             </Button>
         </div>
@@ -180,7 +173,7 @@ export default function Home() {
             <p className="max-w-2xl mx-auto text-muted-foreground mb-8">
                 We'd love to meet you in person. Plan your visit this Sunday and experience our community firsthand.
             </p>
-            <Button asChild size="lg">
+            <Button asChild size="lg" className="bg-accent hover:bg-accent/90 text-accent-foreground">
                 <Link href="/visit">Plan Your Visit <ArrowRight className="ml-2" /></Link>
             </Button>
         </div>
@@ -188,3 +181,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
