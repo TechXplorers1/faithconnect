@@ -1,84 +1,47 @@
-
 'use client';
 
+import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { PlusCircle, MoreHorizontal } from 'lucide-react';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
-import { Input } from '@/components/ui/input';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { useToast } from '@/hooks/use-toast';
 import { useEvents } from '@/context/event-context';
-import { Textarea } from '@/components/ui/textarea';
-
-const eventSchema = z.object({
-  title: z.string().min(3, 'Title must be at least 3 characters long'),
-  date: z.string().min(1, 'Date is required'),
-  time: z.string().min(1, 'Time is required'),
-  location: z.string().min(3, 'Location is required'),
-  description: z.string().min(10, 'Description is required'),
-  image: z.any().optional(),
-});
+import { Event } from '@/lib/definitions';
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function EventsAdminPage() {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const { toast } = useToast();
-  const { events, addEvent } = useEvents();
+  const { events, deleteEvent } = useEvents();
+  const router = useRouter();
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
+  const [eventToDelete, setEventToDelete] = useState<Event | null>(null);
 
-  const form = useForm<z.infer<typeof eventSchema>>({
-    resolver: zodResolver(eventSchema),
-    defaultValues: {
-      title: '',
-      date: '',
-      time: '',
-      location: '',
-      description: '',
-    },
-  });
+  const handleDeleteClick = (event: Event) => {
+    setEventToDelete(event);
+    setIsDeleteDialogOpen(true);
+  };
 
-  function onSubmit(values: z.infer<typeof eventSchema>) {
-    const handleImage = (file: File, callback: (url: string | undefined) => void) => {
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                callback(reader.result as string);
-            };
-            reader.readAsDataURL(file);
-        } else {
-            callback(undefined);
-        }
-    };
-
-    handleImage(values.image?.[0], (imageUrl) => {
-        const newEvent = {
-            ...values,
-            id: Date.now().toString(),
-            image: `event-${Math.floor(Math.random() * 3) + 1}`,
-            imageUrl: imageUrl
-        };
-        addEvent(newEvent);
-        
-        toast({
-          title: 'Event Created!',
-          description: `The event "${values.title}" has been successfully created.`,
-        });
-
-        form.reset();
-        setIsDialogOpen(false);
-    });
-  }
+  const handleConfirmDelete = () => {
+    if (eventToDelete) {
+      deleteEvent(eventToDelete.id);
+      toast({
+        title: 'Event Deleted',
+        description: `The event "${eventToDelete.title}" has been successfully deleted.`,
+      });
+      setEventToDelete(null);
+      setIsDeleteDialogOpen(false);
+    }
+  };
 
   return (
-    <div className="flex-1 space-y-4 p-8 pt-6">
+    <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
        <div className="flex items-center justify-between space-y-2">
         <h1 className="text-3xl font-bold tracking-tight font-headline">Event Management</h1>
-         <Button onClick={() => setIsDialogOpen(true)}><PlusCircle className="mr-2 h-4 w-4"/> Create Event</Button>
+         <Button asChild><Link href="/admin/events/new"><PlusCircle className="mr-2 h-4 w-4"/> Create Event</Link></Button>
       </div>
 
       <Card>
@@ -112,9 +75,9 @@ export default function EventsAdminPage() {
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem>Edit</DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => router.push(`/admin/events/edit/${event.id}`)}>Edit</DropdownMenuItem>
                         <DropdownMenuItem>View Registrations</DropdownMenuItem>
-                        <DropdownMenuItem className="text-destructive">Delete</DropdownMenuItem>
+                        <DropdownMenuItem className="text-destructive" onClick={() => handleDeleteClick(event)}>Delete</DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>
@@ -125,40 +88,21 @@ export default function EventsAdminPage() {
         </CardContent>
       </Card>
 
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="sm:max-w-[425px]">
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)}>
-              <DialogHeader>
-                <DialogTitle>Create New Event</DialogTitle>
-                <DialogDescription>Fill in the details for your new event.</DialogDescription>
-              </DialogHeader>
-              <div className="grid gap-4 py-4">
-                <FormField control={form.control} name="title" render={({ field }) => (
-                  <FormItem><FormLabel>Title</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
-                )} />
-                <FormField control={form.control} name="date" render={({ field }) => (
-                  <FormItem><FormLabel>Date</FormLabel><FormControl><Input type="date" {...field} /></FormControl><FormMessage /></FormItem>
-                )} />
-                <FormField control={form.control} name="time" render={({ field }) => (
-                  <FormItem><FormLabel>Time</FormLabel><FormControl><Input type="time" {...field} /></FormControl><FormMessage /></FormItem>
-                )} />
-                 <FormField control={form.control} name="location" render={({ field }) => (
-                  <FormItem><FormLabel>Location</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
-                )} />
-                <FormField control={form.control} name="description" render={({ field }) => (
-                  <FormItem><FormLabel>Description</FormLabel><FormControl><Textarea {...field} /></FormControl><FormMessage /></FormItem>
-                )} />
-                <FormField control={form.control} name="image" render={({ field }) => (<FormItem><FormLabel>Cover Image</FormLabel><FormControl><Input type="file" accept="image/*" {...form.register('image')} /></FormControl><FormMessage /></FormItem>)} />
-              </div>
-              <DialogFooter>
-                <Button variant="outline" type="button" onClick={() => setIsDialogOpen(false)}>Cancel</Button>
-                <Button type="submit">Save Event</Button>
-              </DialogFooter>
-            </form>
-          </Form>
-        </DialogContent>
-      </Dialog>
+      <AlertDialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This action cannot be undone. This will permanently delete the event
+              <span className="font-bold">"{eventToDelete?.title}"</span>.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction onClick={handleConfirmDelete} className="bg-destructive hover:bg-destructive/90">Delete</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }

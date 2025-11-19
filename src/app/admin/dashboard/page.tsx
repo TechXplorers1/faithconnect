@@ -10,12 +10,12 @@ export default function AdminDashboard() {
   const recentDonations = DONATIONS.slice(0, 5);
 
   return (
-    <div className="flex-1 space-y-4 p-8 pt-6">
+    <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
       <div className="flex items-center justify-between space-y-2">
         <h1 className="text-3xl font-bold tracking-tight font-headline">Dashboard</h1>
         <div className="flex items-center space-x-2">
           <Button asChild><Link href="/admin/sermons/upload">Upload Sermon</Link></Button>
-          <Button asChild variant="outline"><Link href="/admin/events">Create Event</Link></Button>
+          <Button asChild variant="outline"><Link href="/admin/events/new">Create Event</Link></Button>
         </div>
       </div>
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">

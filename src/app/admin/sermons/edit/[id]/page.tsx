@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
@@ -22,8 +22,9 @@ import Link from 'next/link';
 import { ArrowLeft, Sparkles, Loader2 } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { generateSermonSummary } from '@/ai/ai-sermon-summaries';
-import { useRouter } from 'next/navigation';
+import { useRouter, useParams } from 'next/navigation';
 import { useSermons } from '@/context/sermon-context';
+import { Sermon } from '@/lib/definitions';
 
 const formSchema = z.object({
   title: z.string().min(5),
@@ -35,15 +36,32 @@ const formSchema = z.object({
   image: z.any().optional(),
 });
 
-export default function SermonUploadPage() {
+export default function SermonEditPage() {
   const { toast } = useToast();
   const router = useRouter();
-  const { addSermon } = useSermons();
+  const params = useParams();
+  const sermonId = params.id as string;
+  const { getSermonById, updateSermon } = useSermons();
+  const [sermon, setSermon] = useState<Sermon | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: { title: '', speaker: '', date: '', category: '', summary: '', videoUrl: '' },
   });
+
+  useEffect(() => {
+    if (sermonId) {
+      const existingSermon = getSermonById(sermonId);
+      if (existingSermon) {
+        setSermon(existingSermon);
+        form.reset({
+          ...existingSermon,
+          date: existingSermon.date.split('T')[0], // Format date for input
+        });
+      }
+    }
+  }, [sermonId, getSermonById, form]);
 
   async function handleGenerateSummary() {
       const title = form.getValues("title");
@@ -66,7 +84,9 @@ export default function SermonUploadPage() {
   }
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    const handleImage = (file: File, callback: (url: string) => void) => {
+    if (!sermon) return;
+
+    const handleImage = (file: File, callback: (url?: string) => void) => {
         if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
@@ -74,27 +94,30 @@ export default function SermonUploadPage() {
             };
             reader.readAsDataURL(file);
         } else {
-            callback(`sermon-${Math.floor(Math.random() * 4) + 1}`);
+            callback(sermon.coverImageUrl);
         }
     };
 
     handleImage(values.image?.[0], (imageUrl) => {
-        const newSermon = {
+        const updatedSermon: Sermon = {
+            ...sermon,
             ...values,
-            id: Date.now().toString(),
-            coverImage: values.image?.[0] ? undefined : imageUrl,
-            coverImageUrl: values.image?.[0] ? imageUrl : undefined,
+            coverImageUrl: imageUrl,
+            coverImage: values.image?.[0] ? undefined : sermon.coverImage,
         };
-        addSermon(newSermon);
+        updateSermon(updatedSermon);
         
         toast({
-          title: 'Sermon Uploaded!',
-          description: `"${values.title}" has been successfully added to the library.`,
+          title: 'Sermon Updated!',
+          description: `"${values.title}" has been successfully updated.`,
         });
         
-        form.reset();
         router.push('/admin/sermons');
     });
+  }
+
+  if (!sermon) {
+    return <div className="p-8">Sermon not found.</div>;
   }
 
   return (
@@ -103,13 +126,13 @@ export default function SermonUploadPage() {
         <Button variant="outline" size="icon" asChild>
             <Link href="/admin/sermons"><ArrowLeft /></Link>
         </Button>
-        <h1 className="text-3xl font-bold tracking-tight font-headline">Upload New Sermon</h1>
+        <h1 className="text-3xl font-bold tracking-tight font-headline">Edit Sermon</h1>
       </div>
       
       <Card>
         <CardHeader>
             <CardTitle>Sermon Details</CardTitle>
-            <CardDescription>Provide the information for the new sermon.</CardDescription>
+            <CardDescription>Update the information for this sermon.</CardDescription>
         </CardHeader>
         <CardContent>
             <Form {...form}>
@@ -120,7 +143,7 @@ export default function SermonUploadPage() {
                         <FormField control={form.control} name="date" render={({ field }) => (<FormItem><FormLabel>Date</FormLabel><FormControl><Input type="date" {...field} /></FormControl><FormMessage /></FormItem>)} />
                         <FormField control={form.control} name="category" render={({ field }) => (
                             <FormItem><FormLabel>Category</FormLabel>
-                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <Select onValueChange={field.onChange} value={field.value}>
                                 <FormControl><SelectTrigger><SelectValue placeholder="Select a category" /></SelectTrigger></FormControl>
                                 <SelectContent>
                                     <SelectItem value="Faith">Faith</SelectItem>
@@ -155,10 +178,13 @@ export default function SermonUploadPage() {
                     
                      <div className="grid md:grid-cols-2 gap-8">
                         <FormField control={form.control} name="videoUrl" render={({ field }) => (<FormItem><FormLabel>Video URL (YouTube, Vimeo)</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
-                        <FormField control={form.control} name="image" render={({ field }) => (<FormItem><FormLabel>Cover Image</FormLabel><FormControl><Input type="file" accept="image/*" {...form.register('image')} /></FormControl><FormMessage /></FormItem>)} />
+                        <FormField control={form.control} name="image" render={({ field }) => (<FormItem><FormLabel>Cover Image (leave blank to keep current)</FormLabel><FormControl><Input type="file" accept="image/*" {...form.register('image')} /></FormControl><FormMessage /></FormItem>)} />
                     </div>
 
-                    <Button type="submit">Upload Sermon</Button>
+                    <div className="flex justify-end gap-2">
+                        <Button variant="outline" type="button" onClick={() => router.push('/admin/sermons')}>Cancel</Button>
+                        <Button type="submit">Save Changes</Button>
+                    </div>
                 </form>
             </Form>
         </CardContent>
