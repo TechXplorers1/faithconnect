@@ -2,9 +2,9 @@
   "placeholderImages": [
     {
       "id": "hero-1",
-      "description": "A diverse group of people in a church congregation, seen from behind, looking towards the stage.",
-      "imageUrl": "https://images.unsplash.com/photo-1542372147-9d1332b36965?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxjaHVyY2glMjBjb25ncmVnYXRpb258ZW58MHx8fHwxNzYzOTI4NzYyfDA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "church congregation"
+      "description": "The sunlit interior of a modern church with pews and stained glass windows.",
+      "imageUrl": "https://images.unsplash.com/photo-1507692049440-a54f85a837a5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxjaHVyY2h8ZW58MHx8fHwxNzYzOTMwMzIxfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "church interior"
     },
     {
       "id": "sermon-1",
