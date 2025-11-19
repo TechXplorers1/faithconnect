@@ -1,3 +1,4 @@
+
 export type Sermon = {
   id: string;
   title: string;
@@ -26,7 +27,8 @@ export type Ministry = {
   id: string;
   name: string;
   description: string;
-  image: string;
+  image: string; // Placeholder ID
+  imageUrl?: string; // Data URL for uploaded image
   leader?: string;
 };
 

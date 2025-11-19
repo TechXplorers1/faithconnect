@@ -15,20 +15,22 @@ import {
   CalendarDays,
   Church,
 } from 'lucide-react';
-import { MINISTRIES } from '@/lib/placeholder-data';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { useSermons } from '@/context/sermon-context';
 import { useEvents } from '@/context/event-context';
+import { useMinistries } from '@/context/ministry-context';
 import { useState } from 'react';
 import type { Sermon } from '@/lib/definitions';
 
 export default function Home() {
   const { sermons } = useSermons();
   const { events } = useEvents();
+  const { ministries } = useMinistries();
   const [playingSermon, setPlayingSermon] = useState<Sermon | null>(null);
 
   const latestSermon = sermons[0];
   const recentEvents = events.slice(0, 3);
+  const homeMinistries = ministries.slice(0, 3);
   const heroImage = PlaceHolderImages.find(p => p.id === 'hero-main');
   
   return (
@@ -137,19 +139,20 @@ export default function Home() {
             There's a place for everyone at FaithConnect. Discover a ministry where you can grow, serve, and belong.
           </p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {MINISTRIES.slice(0, 3).map(ministry => {
+            {homeMinistries.map(ministry => {
                const ministryImage = PlaceHolderImages.find(p => p.id === ministry.image);
+               const imageUrl = ministry.imageUrl || ministryImage?.imageUrl;
               return (
                 <Link href="/ministries" key={ministry.id}>
                   <Card className="overflow-hidden group text-left transform transition-all hover:-translate-y-2 hover:shadow-xl">
-                    {ministryImage && (
+                    {imageUrl && (
                        <div className="relative h-48">
                          <Image
-                          src={ministryImage.imageUrl}
-                          alt={ministryImage.description}
+                          src={imageUrl}
+                          alt={ministry.name}
                           fill
                           className="object-cover"
-                          data-ai-hint={ministryImage.imageHint}
+                          data-ai-hint={ministryImage?.imageHint}
                         />
                        </div>
                     )}

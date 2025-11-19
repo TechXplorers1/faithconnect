@@ -9,6 +9,7 @@ import { usePathname } from 'next/navigation';
 import { SermonProvider } from '@/context/sermon-context';
 import { EventProvider } from '@/context/event-context';
 import { LiveStreamProvider } from '@/context/livestream-context';
+import { MinistryProvider } from '@/context/ministry-context';
 
 // Using a client component to conditionally render layout based on path
 export default function RootLayout({
@@ -31,12 +32,14 @@ export default function RootLayout({
         <SermonProvider>
           <EventProvider>
             <LiveStreamProvider>
-              <div className="flex flex-col min-h-screen">
-                {!isAdminPage && <Header />}
-                <main className="flex-grow">{children}</main>
-                {!isAdminPage && <Footer />}
-              </div>
-              <Toaster />
+                <MinistryProvider>
+                  <div className="flex flex-col min-h-screen">
+                    {!isAdminPage && <Header />}
+                    <main className="flex-grow">{children}</main>
+                    {!isAdminPage && <Footer />}
+                  </div>
+                  <Toaster />
+                </MinistryProvider>
             </LiveStreamProvider>
           </EventProvider>
         </SermonProvider>

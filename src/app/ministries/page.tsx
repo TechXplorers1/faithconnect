@@ -1,10 +1,15 @@
+
+'use client';
+
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
-import { MINISTRIES } from '@/lib/placeholder-data';
+import { useMinistries } from '@/context/ministry-context';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { User } from 'lucide-react';
 
 export default function MinistriesPage() {
+  const { ministries } = useMinistries();
+
   return (
     <div className="bg-background">
       <header className="container mx-auto px-4 py-16 text-center">
@@ -16,18 +21,20 @@ export default function MinistriesPage() {
 
       <section className="container mx-auto px-4 pb-16">
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {MINISTRIES.map(ministry => {
+          {ministries.map(ministry => {
             const ministryImage = PlaceHolderImages.find(p => p.id === ministry.image);
+            const imageUrl = ministry.imageUrl || ministryImage?.imageUrl;
+            
             return (
               <Card key={ministry.id} className="overflow-hidden flex flex-col">
-                {ministryImage && (
+                {imageUrl && (
                   <div className="relative h-48 w-full">
                     <Image
-                      src={ministryImage.imageUrl}
+                      src={imageUrl}
                       alt={ministry.name}
                       fill
                       className="object-cover"
-                      data-ai-hint={ministryImage.imageHint}
+                      data-ai-hint={ministryImage?.imageHint}
                     />
                   </div>
                 )}
