@@ -24,21 +24,18 @@ export default function Home() {
   const { events } = useEvents();
   const latestSermon = sermons[0];
   const recentEvents = events.slice(0, 3);
-  const heroImage = PlaceHolderImages.find(p => p.id === 'hero-1');
-
+  
   return (
     <div className="flex flex-col">
       <section className="relative h-[70vh] md:h-[85vh] flex items-center justify-center text-center text-white">
-        {heroImage && (
-           <Image
-            src={heroImage.imageUrl}
-            alt={heroImage.description}
+        <Image
+            src="https://images.unsplash.com/photo-1507692049440-a54f85a837a5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxjaHVyY2h8ZW58MHx8fHwxNzYzOTMwMzIxfDA&ixlib=rb-4.1.0&q=80&w=1080"
+            alt="The sunlit interior of a modern church with pews and stained glass windows."
             fill
             className="object-cover"
             priority
-            data-ai-hint={heroImage.imageHint}
+            data-ai-hint="church interior"
           />
-        )}
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-black/20" />
         <div className="relative z-10 p-4 max-w-4xl mx-auto">
           <h1 className="text-4xl md:text-6xl font-bold font-headline drop-shadow-lg leading-tight">
@@ -185,3 +182,5 @@ export default function Home() {
     </div>
   );
 }
+
+    
