@@ -2,9 +2,9 @@
   "placeholderImages": [
     {
       "id": "hero-1",
-      "description": "A person with arms raised in worship in a sunlit field, representing faith and freedom.",
-      "imageUrl": "https://images.unsplash.com/photo-1488998427799-e3362cec87c3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHx3b3JzaGlwfGVufDB8fHx8MTc2MzIwMDgxOXww&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "worship freedom"
+      "description": "A diverse group of people in a church congregation, seen from behind, looking towards the stage.",
+      "imageUrl": "https://images.unsplash.com/photo-1542372147-9d1332b36965?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxjaHVyY2glMjBjb25ncmVnYXRpb258ZW58MHx8fHwxNzYzOTI4NzYyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "church congregation"
     },
     {
       "id": "sermon-1",
@@ -81,7 +81,7 @@
     {
       "id": "contact-header",
       "description": "A friendly person smiling and wearing a headset in a call center.",
-      "imageUrl": "https://images.unsplash.com/photo-1521898284481-a5ec348cb555?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxjdXN0b21lciUyMHN1cHBvcnR8ZW58MHx8fHwxNzYzMTA2ODk4fDA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1521898284481-a5ec348cb555?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxjdXN0b21lciUyMHN1cHBvcnR8ZW58MHx8fHwxNzYzMTA2ODk4fDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "customer support"
     },
     {
@@ -93,7 +93,7 @@
     {
       "id": "live-stream-header",
       "description": "A professional video camera set up for live streaming an event.",
-      "imageUrl": "https://images.unsplash.com/photo-1493804714600-6edb1cd93080?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHx2aWRlbyUyMGNhbWVyYXxlbnwwfHx8fDE3NjMxNDMyNDZ8MA&ixlib-rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://images.unsplash.com/photo-1493804714600-6edb1cd93080?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHx2aWRlbyUyMGNhbWVyYXxlbnwwfHx8fDE3NjMxNDMyNDZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "video camera"
     }
   ]
