@@ -9,7 +9,7 @@ export default function DonationsPage() {
     const totalDonations = DONATIONS.reduce((sum, d) => sum + d.amount, 0);
 
   return (
-    <div className="flex-1 space-y-4 p-4 md:p-8 pt-6">
+    <div className="container mx-auto p-4 md:p-6 space-y-8">
        <div className="flex items-center justify-between space-y-2">
         <h1 className="text-3xl font-bold tracking-tight font-headline">Donation Tracking</h1>
       </div>
