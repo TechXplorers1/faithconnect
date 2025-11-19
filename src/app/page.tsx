@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { SermonCard } from '@/components/sermon-card';
+import { SermonCard, SermonVideoModal } from '@/components/sermon-card';
 import { EventCard } from '@/components/event-card';
 import {
   ArrowRight,
@@ -19,21 +19,29 @@ import { MINISTRIES } from '@/lib/placeholder-data';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { useSermons } from '@/context/sermon-context';
 import { useEvents } from '@/context/event-context';
+import { useState } from 'react';
+import type { Sermon } from '@/lib/definitions';
 
 export default function Home() {
   const { sermons } = useSermons();
   const { events } = useEvents();
+  const [playingSermon, setPlayingSermon] = useState<Sermon | null>(null);
+
   const latestSermon = sermons[0];
   const recentEvents = events.slice(0, 3);
   const heroImage = PlaceHolderImages.find(p => p.id === 'hero-main');
   
   return (
     <div className="flex flex-col">
+       {playingSermon && (
+        <SermonVideoModal
+          sermon={playingSermon}
+          onClose={() => setPlayingSermon(null)}
+        />
+      )}
       <section
-        className="relative h-[60vh] flex items-center justify-center text-center bg-cover bg-center"
-        style={{
-          backgroundImage: "url('https://images.unsplash.com/photo-1507692049440-a54f85a837a5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxjaHVyY2h8ZW58MHx8fHwxNzYzOTMwMzIxfDA&ixlib=rb-4.1.0&q=80&w=1080')",
-        }}
+        className="relative h-[60vh] flex items-center justify-center text-center text-white"
+        style={{ backgroundImage: "url('https://images.unsplash.com/photo-1507692049440-a54f85a837a5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxjaHVyY2h8ZW58MHx8fHwxNzYzOTMwMzIxfDA&ixlib=rb-4.1.0&q=80&w=1080')" }}
       >
         <div className="absolute inset-0 bg-black/60" />
         <div className="relative z-10 p-4 max-w-4xl mx-auto text-white">
@@ -83,7 +91,7 @@ export default function Home() {
                 Catch up on our most recent sermon and dive deeper into the Word.
             </p>
             <div className="max-w-4xl mx-auto">
-              <SermonCard sermon={latestSermon} featured={true} />
+              <SermonCard sermon={latestSermon} featured={true} onPlay={() => setPlayingSermon(latestSermon)}/>
             </div>
           </div>
         </section>
@@ -181,5 +189,3 @@ export default function Home() {
     </div>
   );
 }
-
-    

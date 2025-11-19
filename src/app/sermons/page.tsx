@@ -1,18 +1,29 @@
+
 'use client';
 
-import { SermonCard } from '@/components/sermon-card';
+import { useState } from 'react';
+import { SermonCard, SermonVideoModal } from '@/components/sermon-card';
 import { useSermons } from '@/context/sermon-context';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Search } from 'lucide-react';
+import type { Sermon } from '@/lib/definitions';
 
 export default function SermonsPage() {
   const { sermons } = useSermons();
+  const [playingSermon, setPlayingSermon] = useState<Sermon | null>(null);
+  
   const speakers = [...new Set(sermons.map(s => s.speaker))];
   const categories = [...new Set(sermons.map(s => s.category))];
 
   return (
     <div className="bg-background">
+      {playingSermon && (
+        <SermonVideoModal
+          sermon={playingSermon}
+          onClose={() => setPlayingSermon(null)}
+        />
+      )}
       <header className="container mx-auto px-4 py-16 text-center">
         <h1 className="text-4xl md:text-5xl font-bold font-headline">Sermon Library</h1>
         <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
@@ -50,7 +61,7 @@ export default function SermonsPage() {
       <main className="container mx-auto px-4 pb-16">
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {sermons.map((sermon) => (
-            <SermonCard key={sermon.id} sermon={sermon} />
+            <SermonCard key={sermon.id} sermon={sermon} onPlay={() => setPlayingSermon(sermon)} />
           ))}
         </div>
       </main>
