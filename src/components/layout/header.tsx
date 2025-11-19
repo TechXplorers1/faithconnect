@@ -16,8 +16,9 @@ const navLinks = [
   { href: '/sermons', label: 'Sermons' },
   { href: '/events', label: 'Events' },
   { href: '/live', label: 'Live' },
+  { href: '/give', label: 'Giving' },
+  { href: '/connect', label: 'Connect' },
   { href: '/contact', label: 'Contact' },
-  { href: '/visit', label: 'Visit' },
 ];
 
 export function Header() {
@@ -27,7 +28,7 @@ export function Header() {
   return (
     <header className="w-full border-b bg-background sticky top-0 z-40">
       <div className="container flex h-16 items-center">
-        <div className="mr-4 hidden md:flex">
+        <div className="mr-8 hidden md:flex">
           <Logo />
         </div>
 
@@ -44,20 +45,20 @@ export function Header() {
                  <Logo />
               </div>
               <nav className="mt-4 flex flex-col gap-2 p-4">
-                {navLinks.map((link) => (
+                {[...navLinks, { href: '/visit', label: 'Visit' }].map((link) => (
                   <Link
                     key={link.href}
                     href={link.href}
                     onClick={() => setIsMobileMenuOpen(false)}
                     className={cn(
                       'text-lg font-medium transition-colors hover:text-primary p-2 rounded-md',
-                      pathname === link.href ? 'text-primary bg-primary/10' : 'text-muted-foreground'
+                      pathname === link.href ? 'text-accent-foreground bg-accent' : 'text-foreground'
                     )}
                   >
                     {link.label}
                   </Link>
                 ))}
-                 <Button asChild className="mt-4">
+                 <Button asChild className="mt-4" style={{ backgroundColor: '#4F46E5' }}>
                    <Link href="/give" onClick={() => setIsMobileMenuOpen(false)}>
                      <HandHeart className="mr-2" /> Donate
                    </Link>
@@ -67,18 +68,18 @@ export function Header() {
           </Sheet>
         </div>
 
-        <div className="flex flex-1 items-center justify-between md:justify-start">
+        <div className="flex flex-1 items-center justify-center md:justify-start">
             <div className="md:hidden">
                 <Logo />
             </div>
-            <nav className="hidden md:flex gap-6 ml-6">
-            {navLinks.map((link) => (
+            <nav className="hidden md:flex items-center gap-2">
+            {[...navLinks, { href: '/visit', label: 'Visit' }].map((link) => (
                 <Link
                 key={link.href}
                 href={link.href}
                 className={cn(
-                    'text-sm font-medium transition-colors hover:text-primary',
-                    pathname === link.href ? 'text-foreground' : 'text-muted-foreground'
+                    'text-sm font-medium transition-colors hover:bg-accent/80 hover:text-accent-foreground px-3 py-2 rounded-lg',
+                    pathname === link.href ? 'bg-accent text-accent-foreground' : 'text-foreground/70'
                 )}
                 >
                 {link.label}
@@ -89,10 +90,7 @@ export function Header() {
 
 
         <div className="flex items-center justify-end gap-2">
-            <Button asChild>
-                <Link href="/give"><HandHeart className="mr-2 h-4 w-4" /> Donate</Link>
-            </Button>
-             <Button asChild variant="outline">
+             <Button asChild style={{ backgroundColor: '#4F46E5' }}>
                 <Link href="/login">Login</Link>
             </Button>
         </div>
