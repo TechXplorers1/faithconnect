@@ -16,9 +16,10 @@ const navLinks = [
   { href: '/sermons', label: 'Sermons' },
   { href: '/events', label: 'Events' },
   { href: '/live', label: 'Live' },
-  { href: '/give', label: 'Giving' },
+  { href: '/give', label: 'Donate' },
   { href: '/connect', label: 'Connect' },
   { href: '/contact', label: 'Contact' },
+  { href: '/visit', label: 'Visit' },
 ];
 
 export function Header() {
@@ -45,7 +46,7 @@ export function Header() {
                  <Logo />
               </div>
               <nav className="mt-4 flex flex-col gap-2 p-4">
-                {[...navLinks, { href: '/visit', label: 'Visit' }].map((link) => (
+                {navLinks.map((link) => (
                   <Link
                     key={link.href}
                     href={link.href}
@@ -58,7 +59,7 @@ export function Header() {
                     {link.label}
                   </Link>
                 ))}
-                 <Button asChild className="mt-4" style={{ backgroundColor: '#4F46E5' }}>
+                 <Button asChild className="mt-4">
                    <Link href="/give" onClick={() => setIsMobileMenuOpen(false)}>
                      <HandHeart className="mr-2" /> Donate
                    </Link>
@@ -73,7 +74,7 @@ export function Header() {
                 <Logo />
             </div>
             <nav className="hidden md:flex items-center gap-2">
-            {[...navLinks, { href: '/visit', label: 'Visit' }].map((link) => (
+            {navLinks.map((link) => (
                 <Link
                 key={link.href}
                 href={link.href}
@@ -90,7 +91,7 @@ export function Header() {
 
 
         <div className="flex items-center justify-end gap-2">
-             <Button asChild style={{ backgroundColor: '#4F46E5' }}>
+             <Button asChild>
                 <Link href="/login">Login</Link>
             </Button>
         </div>
