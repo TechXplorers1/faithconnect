@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useForm } from 'react-hook-form';
@@ -65,25 +66,30 @@ export default function EditEventPage() {
   }
 
   function onSubmit(values: z.infer<typeof eventSchema>) {
-    const handleImage = (file: File, callback: (imageUrl?: string) => void) => {
+    const hasNewImage = values.image && values.image.length > 0;
+    
+    const handleImage = (file: File | undefined, callback: (imageUrl?: string, imageId?: string) => void) => {
         if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
-                callback(reader.result as string);
+                callback(reader.result as string, undefined);
             };
             reader.readAsDataURL(file);
         } else {
-            callback(event?.imageUrl);
+            callback(event.imageUrl, event.image);
         }
     };
 
-    handleImage(values.image?.[0], (imageUrl) => {
+    handleImage(hasNewImage ? values.image[0] : undefined, (newImageUrl, imageId) => {
         const updatedEvent: Event = {
             ...event,
             ...values,
-            imageUrl: imageUrl,
-            image: values.image?.[0] ? '' : event.image, // clear placeholder if new image
+            imageUrl: newImageUrl,
+            image: imageId || '',
         };
+        if(hasNewImage) {
+            updatedEvent.image = '';
+        }
         updateEvent(updatedEvent);
         
         toast({
@@ -96,7 +102,7 @@ export default function EditEventPage() {
   }
 
   return (
-     <div className="mx-auto p-4 md:p-6 space-y-8 w-full max-w-4xl">
+     <div className="w-full max-w-4xl mx-auto p-4 md:p-6 space-y-8">
        <div className="flex items-center gap-4">
         <Button variant="outline" size="icon" asChild>
             <Link href="/admin/events"><ArrowLeft /></Link>
@@ -142,3 +148,5 @@ export default function EditEventPage() {
     </div>
   );
 }
+
+    

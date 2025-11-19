@@ -59,25 +59,32 @@ export default function EditMinistryPage() {
   }
 
   function onSubmit(values: z.infer<typeof ministrySchema>) {
-    const handleImage = (file: File, callback: (imageUrl?: string) => void) => {
+    const hasNewImage = values.image && values.image.length > 0;
+
+    const handleImage = (file: File | undefined, callback: (imageUrl?: string, imageId?: string) => void) => {
         if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
-                callback(reader.result as string);
+                callback(reader.result as string, undefined);
             };
             reader.readAsDataURL(file);
         } else {
-            callback(ministry?.imageUrl);
+            callback(ministry.imageUrl, ministry.image);
         }
     };
 
-    handleImage(values.image?.[0], (imageUrl) => {
+    handleImage(hasNewImage ? values.image[0] : undefined, (newImageUrl, imageId) => {
         const updatedMinistry: Ministry = {
             ...ministry,
             ...values,
-            imageUrl: imageUrl,
-            image: values.image?.[0] ? '' : ministry.image, // clear placeholder if new image
+            imageUrl: newImageUrl,
+            image: imageId || '',
         };
+
+        if (hasNewImage) {
+            updatedMinistry.image = '';
+        }
+
         updateMinistry(updatedMinistry);
         
         toast({
@@ -128,3 +135,5 @@ export default function EditMinistryPage() {
     </div>
   );
 }
+
+    

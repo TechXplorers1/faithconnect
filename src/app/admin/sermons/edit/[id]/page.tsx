@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -86,25 +87,32 @@ export default function SermonEditPage() {
   function onSubmit(values: z.infer<typeof formSchema>) {
     if (!sermon) return;
 
-    const handleImage = (file: File, callback: (url?: string) => void) => {
+    const hasNewImage = values.image && values.image.length > 0;
+
+    const handleImage = (file: File | undefined, callback: (imageUrl?: string, coverImageId?: string) => void) => {
         if (file) {
             const reader = new FileReader();
             reader.onloadend = () => {
-                callback(reader.result as string);
+                callback(reader.result as string, undefined);
             };
             reader.readAsDataURL(file);
         } else {
-            callback(sermon.coverImageUrl);
+            callback(sermon.coverImageUrl, sermon.coverImage);
         }
     };
 
-    handleImage(values.image?.[0], (imageUrl) => {
+    handleImage(hasNewImage ? values.image[0] : undefined, (newImageUrl, coverImageId) => {
         const updatedSermon: Sermon = {
             ...sermon,
             ...values,
-            coverImageUrl: imageUrl,
-            coverImage: values.image?.[0] ? undefined : sermon.coverImage,
+            coverImageUrl: newImageUrl,
+            coverImage: coverImageId,
         };
+
+        if (hasNewImage) {
+            delete updatedSermon.coverImage;
+        }
+
         updateSermon(updatedSermon);
         
         toast({
@@ -121,7 +129,7 @@ export default function SermonEditPage() {
   }
 
   return (
-    <div className="mx-auto p-4 md:p-6 space-y-8 w-full max-w-4xl">
+    <div className="w-full max-w-4xl mx-auto p-4 md:p-6 space-y-8">
       <div className="flex items-center gap-4">
         <Button variant="outline" size="icon" asChild>
             <Link href="/admin/sermons"><ArrowLeft /></Link>
@@ -192,3 +200,5 @@ export default function SermonEditPage() {
     </div>
   );
 }
+
+    
