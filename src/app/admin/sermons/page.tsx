@@ -39,7 +39,7 @@ export default function SermonsAdminPage() {
   };
 
   return (
-    <div className="container mx-auto p-4 md:p-6 space-y-8">
+    <div className="mx-auto p-4 md:p-6 space-y-8 w-full max-w-7xl">
        <div className="flex items-center justify-between space-y-2">
         <h1 className="text-3xl font-bold tracking-tight font-headline">Sermon Management</h1>
         <Button asChild><Link href="/admin/sermons/upload"><PlusCircle className="mr-2 h-4 w-4"/> Upload Sermon</Link></Button>
