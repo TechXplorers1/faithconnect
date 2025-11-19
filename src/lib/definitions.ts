@@ -27,6 +27,7 @@ export type Ministry = {
   name: string;
   description: string;
   image: string;
+  leader?: string;
 };
 
 export type Donation = {

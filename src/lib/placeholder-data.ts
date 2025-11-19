@@ -82,27 +82,42 @@ export const EVENTS: Event[] = [
 export const MINISTRIES: Ministry[] = [
     {
         id: '1',
-        name: 'KidsConnect',
-        description: 'Engaging and fun programs for children from nursery to 5th grade, where they can learn about God in a safe environment.',
-        image: 'ministry-1'
+        name: 'Kids Ministry',
+        description: 'Partnering with parents to help kids from birth to 5th grade know, love, and follow Jesus.',
+        image: 'ministry-kids',
+        leader: 'Sarah Miller',
     },
     {
         id: '2',
-        name: 'Youth Ablaze',
-        description: 'A dynamic ministry for middle and high school students to grow in their faith, build friendships, and serve the community.',
-        image: 'ministry-2'
+        name: 'Youth Ministry',
+        description: 'A dynamic community for students (6th-12th grade) to grow in their faith and build lasting friendships.',
+        image: 'ministry-youth',
+        leader: 'Mark Davis',
     },
     {
         id: '3',
-        name: 'Life Groups',
-        description: 'Small groups that meet weekly in homes to study the Bible, pray, and support one another in their walk with Christ.',
-        image: 'ministry-3'
+        name: 'Women\'s Ministry',
+        description: 'Creating spaces for women to connect, grow, and encourage one another in all seasons of life.',
+        image: 'ministry-women',
+        leader: 'Pastor Jane',
     },
     {
         id: '4',
-        name: 'Worship & Arts',
-        description: 'Using music, drama, and visual arts to create a compelling worship experience that glorifies God.',
-        image: 'ministry-4'
+        name: 'Men\'s Ministry',
+        description: 'Challenging men to be spiritual leaders in their homes, at work, and in the community.',
+        image: 'ministry-men',
+    },
+    {
+        id: '5',
+        name: 'Worship Arts',
+        description: 'Using music and creativity to lead our church family in authentic, God-honoring worship.',
+        image: 'ministry-worship',
+    },
+    {
+        id: '6',
+        name: 'Community Outreach',
+        description: 'Serving our local community and sharing the hope of the gospel through practical acts of love.',
+        image: 'ministry-outreach',
     }
 ];
 

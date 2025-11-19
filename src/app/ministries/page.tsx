@@ -1,7 +1,8 @@
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { MINISTRIES } from '@/lib/placeholder-data';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
+import { User } from 'lucide-react';
 
 export default function MinistriesPage() {
   return (
@@ -14,31 +15,37 @@ export default function MinistriesPage() {
       </header>
 
       <section className="container mx-auto px-4 pb-16">
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {MINISTRIES.map(ministry => {
             const ministryImage = PlaceHolderImages.find(p => p.id === ministry.image);
             return (
-              <Card key={ministry.id} className="overflow-hidden">
-                <div className="flex flex-col sm:flex-row">
-                  {ministryImage && (
-                    <div className="relative h-48 sm:h-auto sm:w-1/3">
-                      <Image
-                        src={ministryImage.imageUrl}
-                        alt={ministryImage.description}
-                        fill
-                        className="object-cover"
-                        data-ai-hint={ministryImage.imageHint}
-                      />
-                    </div>
-                  )}
-                  <div className="sm:w-2/3">
-                    <CardHeader>
-                      <CardTitle className="font-headline text-2xl">{ministry.name}</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <p className="text-muted-foreground">{ministry.description}</p>
-                    </CardContent>
+              <Card key={ministry.id} className="overflow-hidden flex flex-col">
+                {ministryImage && (
+                  <div className="relative h-48 w-full">
+                    <Image
+                      src={ministryImage.imageUrl}
+                      alt={ministry.name}
+                      fill
+                      className="object-cover"
+                      data-ai-hint={ministryImage.imageHint}
+                    />
                   </div>
+                )}
+                <div className="flex flex-col flex-grow">
+                  <CardHeader>
+                    <CardTitle className="font-headline text-2xl">{ministry.name}</CardTitle>
+                  </CardHeader>
+                  <CardContent className="flex-grow">
+                    <p className="text-muted-foreground">{ministry.description}</p>
+                  </CardContent>
+                  {ministry.leader && (
+                    <CardFooter>
+                      <div className="flex items-center text-sm text-muted-foreground">
+                        <User className="h-4 w-4 mr-2" />
+                        Led by {ministry.leader}
+                      </div>
+                    </CardFooter>
+                  )}
                 </div>
               </Card>
             );

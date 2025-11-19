@@ -49,28 +49,40 @@
       "imageHint": "church concert"
     },
     {
-      "id": "ministry-1",
+      "id": "ministry-kids",
       "description": "A group of children happily participating in a sunday school class.",
       "imageUrl": "https://images.unsplash.com/photo-1588072432836-e10032774350?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjaGlsZHJlbiUyMGNsYXNzcm9vbXxlbnwwfHx8fDE3NjMwOTcxOTV8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "children classroom"
     },
     {
-      "id": "ministry-2",
-      "description": "Teenagers in a circle for a youth group discussion.",
-      "imageUrl": "https://images.unsplash.com/photo-1566135235200-616a028972c9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHx5b3V0aCUyMGdyb3VwfGVufDB8fHx8MTc2MzE5OTY0Nnww&ixlib=rb-4.1.0&q=80&w=1080",
+      "id": "ministry-youth",
+      "description": "Teenagers at a lake during sunset, representing youth group activities.",
+      "imageUrl": "https://images.unsplash.com/photo-1520208422220-d12a699c8039?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx5b3V0aCUyMGdyb3VwJTIwY2FtcHxlbnwwfHx8fDE3NjM5MzIxNDR8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "youth group"
     },
     {
-      "id": "ministry-3",
-      "description": "A group of adults in a small group bible study.",
-      "imageUrl": "https://images.unsplash.com/photo-1559534703-e191bce0d946?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxiaWJsZSUyMHN0dWR5fGVufDB8fHx8MTc2MzEwMDA4M3ww&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "bible study"
+      "id": "ministry-women",
+      "description": "Two women having a conversation over coffee.",
+      "imageUrl": "https://images.unsplash.com/photo-1522079979914-1a3f12391054?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHx3b21lbiUyMGNvZmZlZXxlbnwwfHx8fDE3NjM5MzIyMDV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "women coffee"
     },
     {
-      "id": "ministry-4",
-      "description": "A praise band leading worship on a stage.",
-      "imageUrl": "https://images.unsplash.com/photo-1583795310237-3d8495426d15?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHx3b3JzaGlwJTIwYmFuZHxlbnwwfHx8fDE3NjMwOTcyMDh8MA&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "worship band"
+      "id": "ministry-men",
+      "description": "A group of men talking and laughing together.",
+      "imageUrl": "https://images.unsplash.com/photo-1581450201297-c2df11623913?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxtZW4lMjB0YWxraW5nfGVufDB8fHx8MTc2MzkzMjI1MHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "men talking"
+    },
+    {
+      "id": "ministry-worship",
+      "description": "A close up of hands playing an acoustic guitar.",
+      "imageUrl": "https://images.unsplash.com/photo-1499529941093-896933543c7b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxhY291c3RpYyUyMGd1aXRhcnxlbnwwfHx8fDE3NjM5MzIzMTd8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "acoustic guitar"
+    },
+    {
+      "id": "ministry-outreach",
+      "description": "A volunteer handing out food at a community event.",
+      "imageUrl": "https://images.unsplash.com/photo-1618471694723-b73a38446b19?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxjb21tdW5pdHklMjBvdXRyZWFjaHxlbnwwfHx8fDE3NjM5MzIzODZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "community outreach"
     },
     {
       "id": "about-us",
