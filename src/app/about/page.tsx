@@ -1,3 +1,4 @@
+
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -89,7 +90,7 @@ export default function AboutPage() {
 
       <section className="container mx-auto px-4 pb-16">
         <h2 className="text-3xl font-bold font-headline text-center mb-12">Our Core Values</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-6xl mx-auto">
           {coreValues.map(value => (
             <Card key={value.title}>
               <CardContent className="p-6 text-center">
