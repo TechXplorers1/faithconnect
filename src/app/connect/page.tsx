@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useForm } from 'react-hook-form';
@@ -18,6 +19,8 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { useToast } from '@/hooks/use-toast';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { useSearchParams } from 'next/navigation';
+import { useEffect } from 'react';
 
 const membershipSchema = z.object({
   name: z.string().min(2),
@@ -37,16 +40,22 @@ const volunteerSchema = z.object({
 });
 
 const volunteerInterests = [
-  { id: 'kids', label: 'KidsConnect (Children\'s Ministry)' },
-  { id: 'youth', label: 'Youth Ablaze (Youth Group)' },
-  { id: 'worship', label: 'Worship & Arts Team' },
+  { id: 'kids-ministry', label: 'KidsConnect (Children\'s Ministry)' },
+  { id: 'youth-ministry', label: 'Youth Ablaze (Youth Group)' },
+  { id: 'worship-arts', label: 'Worship & Arts Team' },
   { id: 'greeting', label: 'Greeting & Hospitality' },
   { id: 'tech', label: 'Tech & Media Team' },
-  { id: 'outreach', label: 'Community Outreach' },
+  { id: 'community-outreach', label: 'Community Outreach' },
+  { id: 'womens-ministry', label: 'Women\'s Ministry' },
+  { id: 'mens-ministry', label: 'Men\'s Ministry' },
 ];
 
 export default function ConnectPage() {
   const { toast } = useToast();
+  const searchParams = useSearchParams();
+  const tab = searchParams.get('tab') || 'volunteer';
+  const interest = searchParams.get('interest');
+
 
   const membershipForm = useForm<z.infer<typeof membershipSchema>>({
     resolver: zodResolver(membershipSchema),
@@ -57,6 +66,16 @@ export default function ConnectPage() {
     resolver: zodResolver(volunteerSchema),
     defaultValues: { name: '', email: '', phone: '', interests: [], message: '' },
   });
+
+   useEffect(() => {
+    if (tab === 'volunteer' && interest) {
+      const validInterests = volunteerInterests.map(i => i.id);
+      if (validInterests.includes(interest)) {
+        volunteerForm.setValue('interests', [interest]);
+      }
+    }
+  }, [tab, interest, volunteerForm]);
+
 
   function onMembershipSubmit(values: z.infer<typeof membershipSchema>) {
     console.log('Membership Application:', values);
@@ -80,7 +99,7 @@ export default function ConnectPage() {
       </header>
 
       <div className="container mx-auto px-4 pb-16">
-        <Tabs defaultValue="volunteer" className="w-full max-w-3xl mx-auto">
+        <Tabs defaultValue={tab} value={tab} className="w-full max-w-3xl mx-auto">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="volunteer">Volunteer</TabsTrigger>
             <TabsTrigger value="membership">Become a Member</TabsTrigger>

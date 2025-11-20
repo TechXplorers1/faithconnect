@@ -2,10 +2,13 @@
 'use client';
 
 import Image from 'next/image';
+import Link from 'next/link';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { useMinistries } from '@/context/ministry-context';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
-import { User } from 'lucide-react';
+import { User, ArrowRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { ministryNameToId } from '@/lib/utils';
 
 export default function MinistriesPage() {
   const { ministries } = useMinistries();
@@ -24,6 +27,7 @@ export default function MinistriesPage() {
           {ministries.map(ministry => {
             const ministryImage = PlaceHolderImages.find(p => p.id === ministry.image);
             const imageUrl = ministry.imageUrl || ministryImage?.imageUrl;
+            const interestId = ministryNameToId(ministry.name);
             
             return (
               <Card key={ministry.id} className="overflow-hidden flex flex-col">
@@ -38,21 +42,26 @@ export default function MinistriesPage() {
                     />
                   </div>
                 )}
-                <div className="flex flex-col flex-grow">
-                  <CardHeader>
+                <div className="flex flex-col flex-grow p-6">
+                  <CardHeader className="p-0">
                     <CardTitle className="font-headline text-2xl">{ministry.name}</CardTitle>
                   </CardHeader>
-                  <CardContent className="flex-grow">
+                  <CardContent className="p-0 flex-grow pt-4">
                     <p className="text-muted-foreground">{ministry.description}</p>
                   </CardContent>
-                  {ministry.leader && (
-                    <CardFooter>
-                      <div className="flex items-center text-sm text-muted-foreground">
-                        <User className="h-4 w-4 mr-2" />
-                        Led by {ministry.leader}
-                      </div>
-                    </CardFooter>
-                  )}
+                  <CardFooter className="p-0 pt-4 flex flex-col items-start gap-4">
+                    {ministry.leader && (
+                        <div className="flex items-center text-sm text-muted-foreground">
+                            <User className="h-4 w-4 mr-2" />
+                            Led by {ministry.leader}
+                        </div>
+                    )}
+                     <Button asChild variant="outline">
+                        <Link href={`/connect?tab=volunteer&interest=${interestId}`}>
+                            Join Team <ArrowRight className="ml-2 h-4 w-4" />
+                        </Link>
+                     </Button>
+                  </CardFooter>
                 </div>
               </Card>
             );
