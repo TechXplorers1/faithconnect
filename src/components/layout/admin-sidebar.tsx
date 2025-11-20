@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from "next/link";
@@ -17,7 +18,6 @@ import {
     Video, 
     Calendar, 
     HandHeart,
-    Mail,
     LogOut,
     Radio,
     Group,
@@ -31,7 +31,6 @@ const adminNavItems = [
     { href: '/admin/ministries', label: 'Ministries', icon: Group },
     { href: '/admin/donations', label: 'Donations', icon: HandHeart },
     { href: '/admin/live-stream', label: 'Live Stream', icon: Radio },
-    { href: '/admin/newsletter', label: 'Newsletter', icon: Mail },
 ];
 
 export function AdminSidebar() {
