@@ -1,4 +1,3 @@
-
 import Image from 'next/image';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -44,12 +43,18 @@ export default function AboutPage() {
 
    {aboutImage && (
         <section className="container mx-auto px-4">
-          <div className="relative h-96 rounded-lg overflow-hidden">
+          {/* 1. relative h-96: Sets a fixed height (cuts the view). 
+             2. overflow-hidden: Hides the parts of the image that get cut off. 
+          */}
+          <div className="relative h-96 w-full rounded-lg overflow-hidden">
             <Image
-              src="/about.png"
+              src="/about-page.jpeg"
               alt={aboutImage.description}
               fill
-              className="object-fill"
+              /* object-cover: This ensures the image keeps its natural proportions 
+                 (doesn't compress/squash) and just crops the excess edges. 
+              */
+              className="object-cover"
               data-ai-hint={aboutImage.imageHint}
             />
           </div>

@@ -49,7 +49,7 @@ export default function Home() {
               src="/hero-section.png"
               alt="Church Congregation Worshiping"
               fill
-              className="object-fill opacity-150"
+              // className="object-fill opacity-150"
               priority
             />
         )}
