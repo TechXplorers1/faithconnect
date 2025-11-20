@@ -1,4 +1,3 @@
-
 'use client';
 
 import Image from 'next/image';
@@ -41,6 +40,8 @@ export default function Home() {
           onClose={() => setPlayingSermon(null)}
         />
       )}
+      
+      {/* HERO SECTION */}
       <section
         className="relative h-[60vh] flex items-center justify-center text-center text-white"
       >
@@ -49,7 +50,10 @@ export default function Home() {
               src="/hero-section.png"
               alt="Church Congregation Worshiping"
               fill
-              // className="object-fill opacity-150"
+              /* object-cover: Ensures the image covers the area without compressing/distorting.
+                 object-center: Ensures the image stays centered even when cropped.
+              */
+              className="object-cover object-center"
               priority
             />
         )}
@@ -61,7 +65,7 @@ export default function Home() {
           <p className="mt-6 text-lg md:text-xl max-w-2xl mx-auto drop-shadow-md">
             Welcome to FaithConnect, a place to belong and grow. Join us this Sunday for an inspiring message of hope and community.
           </p>
-           <Button asChild size="lg" className="mt-8 group bg-accent hover:bg-accent/90 text-accent-foreground">
+            <Button asChild size="lg" className="mt-8 group bg-accent hover:bg-accent/90 text-accent-foreground">
             <Link href="/sermons">
               Watch The Latest Sermon <ArrowRight className="ml-2 transition-transform group-hover:translate-x-1" />
             </Link>
@@ -72,23 +76,23 @@ export default function Home() {
       <section id="service-times" className="py-16 bg-background">
         <div className="container mx-auto px-4">
             <div className="bg-card p-8 rounded-lg shadow-md border max-w-5xl mx-auto">
-                 <div className="grid md:grid-cols-3 gap-8 text-center">
+                  <div className="grid md:grid-cols-3 gap-8 text-center">
                     <div className="flex flex-col items-center">
                         <Clock className="h-10 w-10 text-primary mb-3" />
                         <h3 className="text-xl font-bold font-headline">Sunday Service</h3>
                         <p className="text-muted-foreground">10:00 AM</p>
                     </div>
-                     <div className="flex flex-col items-center">
+                      <div className="flex flex-col items-center">
                         <MapPin className="h-10 w-10 text-primary mb-3" />
                         <h3 className="text-xl font-bold font-headline">Our Location</h3>
                         <p className="text-muted-foreground">123 Faith Ave, Community City</p>
                     </div>
-                     <div className="flex flex-col items-center">
+                      <div className="flex flex-col items-center">
                         <Church className="h-10 w-10 text-primary mb-3" />
                         <h3 className="text-xl font-bold font-headline">New Here?</h3>
                         <Link href="/visit" className="text-primary hover:underline">Plan Your Visit</Link>
                     </div>
-                 </div>
+                  </div>
             </div>
         </div>
       </section>
@@ -97,7 +101,7 @@ export default function Home() {
         <section id="latest-sermon" className="py-16 bg-card">
           <div className="container mx-auto px-4 text-center">
             <h2 className="text-3xl font-bold font-headline mb-2">Latest Message</h2>
-             <p className="max-w-2xl mx-auto text-muted-foreground mb-8">
+              <p className="max-w-2xl mx-auto text-muted-foreground mb-8">
                 Catch up on our most recent sermon and dive deeper into the Word.
             </p>
             <div className="max-w-4xl mx-auto">
@@ -161,7 +165,7 @@ export default function Home() {
                           src={imageUrl}
                           alt={ministry.name}
                           fill
-                          className="object-cover"
+                          className="object-fill"
                           data-ai-hint={ministryImage?.imageHint}
                         />
                       </div>
@@ -177,7 +181,7 @@ export default function Home() {
               )
             })}
           </div>
-           <Button asChild size="lg" className="mt-12 bg-accent hover:bg-accent/90 text-accent-foreground">
+            <Button asChild size="lg" className="mt-12 bg-accent hover:bg-accent/90 text-accent-foreground">
               <Link href="/ministries">Explore All Ministries</Link>
             </Button>
         </div>
