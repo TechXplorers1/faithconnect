@@ -45,13 +45,12 @@ export default function Home() {
         className="relative h-[60vh] flex items-center justify-center text-center text-white"
       >
         {heroImage && (
-             <Image
-                src={heroImage.imageUrl}
-                alt={heroImage.description}
-                fill
-                className="object-cover"
-                data-ai-hint={heroImage.imageHint}
-                priority
+            <Image
+              src="/hero-section.png"
+              alt="Church Congregation Worshiping"
+              fill
+              className="object-cover opacity-100"
+              priority
             />
         )}
         <div className="absolute inset-0 bg-black/60" />

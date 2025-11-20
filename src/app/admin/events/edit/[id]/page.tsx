@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useForm } from 'react-hook-form';
@@ -61,11 +60,15 @@ export default function EditEventPage() {
     }
   }, [event, form]);
 
+  // If event is not found (e.g. after a refresh if data isn't persistent), show this message
   if (!event) {
     return <div className="p-8">Event not found.</div>;
   }
 
   function onSubmit(values: z.infer<typeof eventSchema>) {
+    // FIX: Explicitly check if event exists to satisfy TypeScript
+    if (!event) return;
+
     const imageFile = values.image && values.image.length > 0 ? values.image[0] : undefined;
 
     const processUpdate = (imageUrl?: string, imageId?: string) => {
@@ -101,7 +104,7 @@ export default function EditEventPage() {
   }
 
   return (
-     <div className="w-full max-w-4xl mx-auto p-4 md:p-6 space-y-8">
+     <div className="w-full max-w-full mx-auto p-4 space-y-4">
        <div className="flex items-center gap-4">
         <Button variant="outline" size="icon" asChild>
             <Link href="/admin/events"><ArrowLeft /></Link>
@@ -116,7 +119,7 @@ export default function EditEventPage() {
         </CardHeader>
         <CardContent>
              <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                     <FormField control={form.control} name="title" render={({ field }) => (
                     <FormItem><FormLabel>Title</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
                     )} />

@@ -1,9 +1,15 @@
 import { Church } from 'lucide-react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export function Logo() {
+  const pathname = usePathname();
+  
+  // Determine the link destination based on current path
+  const logoHref = pathname?.startsWith('/admin') ? '/admin/dashboard' : '/';
+
   return (
-    <Link href="/" className="flex items-center gap-2" aria-label="FaithConnect Home">
+    <Link href={logoHref} className="flex items-center gap-2" aria-label="FaithConnect Home">
       <Church className="h-7 w-7 text-primary" />
       <span className="text-xl font-bold tracking-tight font-headline text-foreground">
         FaithConnect

@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useForm } from 'react-hook-form';
@@ -20,7 +19,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useSearchParams } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const membershipSchema = z.object({
   name: z.string().min(2),
@@ -53,9 +52,13 @@ const volunteerInterests = [
 export default function ConnectPage() {
   const { toast } = useToast();
   const searchParams = useSearchParams();
-  const tab = searchParams.get('tab') || 'volunteer';
+  
+  // Get the initial tab from URL or default to 'volunteer'
+  const initialTab = searchParams.get('tab') || 'volunteer';
   const interest = searchParams.get('interest');
 
+  // Create local state to control the tabs, initialized with the URL param
+  const [activeTab, setActiveTab] = useState(initialTab);
 
   const membershipForm = useForm<z.infer<typeof membershipSchema>>({
     resolver: zodResolver(membershipSchema),
@@ -67,14 +70,22 @@ export default function ConnectPage() {
     defaultValues: { name: '', email: '', phone: '', interests: [], message: '' },
   });
 
+  // Sync state if the URL parameter changes (e.g. user navigates back/forward)
+  useEffect(() => {
+    if (initialTab) {
+      setActiveTab(initialTab);
+    }
+  }, [initialTab]);
+
    useEffect(() => {
-    if (tab === 'volunteer' && interest) {
+    // Only pre-fill if the URL explicitly requested the volunteer tab and has an interest
+    if (initialTab === 'volunteer' && interest) {
       const validInterests = volunteerInterests.map(i => i.id);
       if (validInterests.includes(interest)) {
         volunteerForm.setValue('interests', [interest]);
       }
     }
-  }, [tab, interest, volunteerForm]);
+  }, [initialTab, interest, volunteerForm]);
 
 
   function onMembershipSubmit(values: z.infer<typeof membershipSchema>) {
@@ -99,7 +110,8 @@ export default function ConnectPage() {
       </header>
 
       <div className="container mx-auto px-4 pb-16">
-        <Tabs defaultValue={tab} value={tab} className="w-full max-w-3xl mx-auto">
+        {/* Updated Tabs component with activeTab state and onValueChange handler */}
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full max-w-3xl mx-auto">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="volunteer">Volunteer</TabsTrigger>
             <TabsTrigger value="membership">Become a Member</TabsTrigger>
@@ -114,7 +126,6 @@ export default function ConnectPage() {
               <CardContent>
                 <Form {...volunteerForm}>
                   <form onSubmit={volunteerForm.handleSubmit(onVolunteerSubmit)} className="space-y-6">
-                    {/* ... Volunteer form fields ... */}
                     <FormField control={volunteerForm.control} name="name" render={({ field }) => (<FormItem><FormLabel>Full Name</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
                     <FormField control={volunteerForm.control} name="email" render={({ field }) => (<FormItem><FormLabel>Email</FormLabel><FormControl><Input type="email" {...field} /></FormControl><FormMessage /></FormItem>)} />
                     <FormField control={volunteerForm.control} name="phone" render={({ field }) => (<FormItem><FormLabel>Phone Number</FormLabel><FormControl><Input type="tel" {...field} /></FormControl><FormMessage /></FormItem>)} />
@@ -169,7 +180,6 @@ export default function ConnectPage() {
               <CardContent>
                 <Form {...membershipForm}>
                   <form onSubmit={membershipForm.handleSubmit(onMembershipSubmit)} className="space-y-6">
-                    {/* ... Membership form fields ... */}
                     <FormField control={membershipForm.control} name="name" render={({ field }) => (<FormItem><FormLabel>Full Name</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>)} />
                     <FormField control={membershipForm.control} name="email" render={({ field }) => (<FormItem><FormLabel>Email</FormLabel><FormControl><Input type="email" {...field} /></FormControl><FormMessage /></FormItem>)} />
                     <FormField control={membershipForm.control} name="phone" render={({ field }) => (<FormItem><FormLabel>Phone Number</FormLabel><FormControl><Input type="tel" {...field} /></FormControl><FormMessage /></FormItem>)} />

@@ -42,14 +42,14 @@ export default function AboutPage() {
         </p>
       </header>
 
-      {aboutImage && (
+   {aboutImage && (
         <section className="container mx-auto px-4">
           <div className="relative h-96 rounded-lg overflow-hidden">
             <Image
-              src={aboutImage.imageUrl}
+              src="/about.png"
               alt={aboutImage.description}
               fill
-              className="object-cover"
+              className="object-fill"
               data-ai-hint={aboutImage.imageHint}
             />
           </div>

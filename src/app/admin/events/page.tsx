@@ -38,7 +38,8 @@ export default function EventsAdminPage() {
   };
 
   return (
-    <div className="mx-auto p-4 md:p-6 space-y-8 w-full max-w-7xl">
+    // UPDATED: max-w-7xl -> max-w-full for full width
+    <div className="mx-auto p-4 md:p-6 space-y-8 w-full max-w-full">
        <div className="flex items-center justify-between space-y-2">
         <h1 className="text-3xl font-bold tracking-tight font-headline">Event Management</h1>
          <Button asChild><Link href="/admin/events/new"><PlusCircle className="mr-2 h-4 w-4"/> Create Event</Link></Button>
@@ -63,7 +64,8 @@ export default function EventsAdminPage() {
               {events.map(event => (
                 <TableRow key={event.id}>
                   <TableCell className="font-medium">{event.title}</TableCell>
-                  <TableCell>{new Date(event.date).toLocaleDateString()}</TableCell>
+                  {/* UPDATED: Added 'en-US' to prevent hydration mismatch errors */}
+                  <TableCell>{new Date(event.date).toLocaleDateString('en-US')}</TableCell>
                   <TableCell>{event.location}</TableCell>
                   <TableCell className="text-right">
                     <DropdownMenu>

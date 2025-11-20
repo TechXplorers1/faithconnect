@@ -1,4 +1,3 @@
-
 'use client';
 
 import Image from 'next/image';
@@ -13,6 +12,16 @@ import { ministryNameToId } from '@/lib/utils';
 export default function MinistriesPage() {
   const { ministries } = useMinistries();
 
+  // Map ministry names to specific local image paths
+  const ministryImages: Record<string, string> = {
+    "Kids Ministry": "/kids-ministry.png",
+    "Youth Ministry": "/youth-ministry.png",
+    "Women's Ministry": "/women-ministry.png",
+    "Men's Ministry": "/men-ministry.png",
+    "Worship Arts": "/worshipart-ministry.png",
+    "Community Outreach": "/community.png"
+  };
+
   return (
     <div className="bg-background">
       <header className="container mx-auto px-4 py-16 text-center">
@@ -26,7 +35,8 @@ export default function MinistriesPage() {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {ministries.map(ministry => {
             const ministryImage = PlaceHolderImages.find(p => p.id === ministry.image);
-            const imageUrl = ministry.imageUrl || ministryImage?.imageUrl;
+            // Use local image map if available, otherwise fall back to existing logic
+            const imageUrl = ministryImages[ministry.name] || ministry.imageUrl || ministryImage?.imageUrl;
             const interestId = ministryNameToId(ministry.name);
             
             return (

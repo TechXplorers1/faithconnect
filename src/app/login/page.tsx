@@ -35,7 +35,7 @@ export default function LoginPage() {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    if (values.username === 'Admin@123' && values.password === 'Password@123') {
+    if (values.username === 'admin@gmail.com' && values.password === 'Password@123') {
       toast({
         title: 'Login Successful',
         description: 'Welcome back, Admin!',
