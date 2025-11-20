@@ -80,7 +80,7 @@ export function Header() {
                 href={link.href}
                 className={cn(
                     'text-sm font-medium transition-colors hover:bg-accent/80 hover:text-accent-foreground px-3 py-2 rounded-lg',
-                    pathname === link.href ? 'bg-accent text-accent-foreground' : 'text-foreground/70'
+                    pathname === link.href ? 'bg-accent text-accent-foreground' : 'text-foreground'
                 )}
                 >
                 {link.label}
