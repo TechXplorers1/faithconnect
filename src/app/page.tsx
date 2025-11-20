@@ -131,7 +131,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="ministries" className="py-16 bg-card">
+     <section id="ministries" className="py-16 bg-card">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold font-headline mb-2">Find Your Community</h2>
           <p className="max-w-2xl mx-auto text-muted-foreground mb-12">
@@ -139,21 +139,32 @@ export default function Home() {
           </p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {homeMinistries.map(ministry => {
+               // 1. Try to find image by ID first (existing logic)
                const ministryImage = PlaceHolderImages.find(p => p.id === ministry.image);
-               const imageUrl = ministry.imageUrl || ministryImage?.imageUrl;
+               let imageUrl = ministry.imageUrl || ministryImage?.imageUrl;
+
+               // 2. UPDATED: Explicitly set paths for Youth and Women's ministries
+               // This overrides the default if the name matches, ensuring the correct image is used.
+               const name = ministry.name.toLowerCase();
+               if (name.includes('youth')) {
+                 imageUrl = '/youth-ministry.png';
+               } else if (name.includes('women')) {
+                 imageUrl = '/women-ministry.png';
+               }
+
               return (
                 <Link href="/ministries" key={ministry.id}>
                   <Card className="overflow-hidden group text-left transform transition-all hover:-translate-y-2 hover:shadow-xl">
                     {imageUrl && (
-                       <div className="relative h-48">
-                         <Image
+                      <div className="relative h-48">
+                        <Image
                           src={imageUrl}
                           alt={ministry.name}
                           fill
                           className="object-cover"
                           data-ai-hint={ministryImage?.imageHint}
                         />
-                       </div>
+                      </div>
                     )}
                     <CardHeader>
                       <CardTitle className="font-headline">{ministry.name}</CardTitle>
