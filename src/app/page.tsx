@@ -50,10 +50,11 @@ export default function Home() {
               src="/hero-section.png"
               alt="Church Congregation Worshiping"
               fill
-              /* object-cover: Ensures the image covers the area without compressing/distorting.
-                 object-center: Ensures the image stays centered even when cropped.
+              /* object-cover: Keeps image size correct without compression.
+                 object-[50%_75%]: Moves the focal point down. 
+                 (50% horizontal center, 75% vertical - closer to bottom).
               */
-              className="object-cover object-center"
+              className="object-cover object-[50%_75%]"
               priority
             />
         )}
@@ -143,12 +144,9 @@ export default function Home() {
           </p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {homeMinistries.map(ministry => {
-               // 1. Try to find image by ID first (existing logic)
                const ministryImage = PlaceHolderImages.find(p => p.id === ministry.image);
                let imageUrl = ministry.imageUrl || ministryImage?.imageUrl;
 
-               // 2. UPDATED: Explicitly set paths for Youth and Women's ministries
-               // This overrides the default if the name matches, ensuring the correct image is used.
                const name = ministry.name.toLowerCase();
                if (name.includes('youth')) {
                  imageUrl = '/youth-ministry.png';
@@ -165,7 +163,7 @@ export default function Home() {
                           src={imageUrl}
                           alt={ministry.name}
                           fill
-                          className="object-fill"
+                          className="object-cover"
                           data-ai-hint={ministryImage?.imageHint}
                         />
                       </div>
