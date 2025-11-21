@@ -54,30 +54,32 @@ export default function LiveStreamPage() {
         </div>
       </section>
 
-      <section className="container mx-auto px-4 pb-16">
-        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto text-center">
-            <Card>
-                <CardHeader>
-                    <Clock className="h-8 w-8 mx-auto text-primary" />
-                    <CardTitle className="font-headline mt-2">Service Times</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <p>Join us live every Sunday at 10:00 AM for worship and a message of hope.</p>
-                </CardContent>
-            </Card>
-            
-             <Card>
-                <CardHeader>
-                    <HandHeart className="h-8 w-8 mx-auto text-primary" />
-                    <CardTitle className="font-headline mt-2">Online Giving</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <p>Support our mission and ministries by giving online securely and easily.</p>
-                    <Button asChild variant="link" className="mt-2">
-                        <Link href="/give">Donate Now</Link>
-                    </Button>
-                </CardContent>
-            </Card>
+            <section className="container mx-auto px-4 pb-16">
+        <div className="flex justify-center">
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl text-center">
+              <Card>
+                  <CardHeader>
+                      <Clock className="h-8 w-8 mx-auto text-primary" />
+                      <CardTitle className="font-headline mt-2">Service Times</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                      <p>Join us live every Sunday at 10:00 AM for worship and a message of hope.</p>
+                  </CardContent>
+              </Card>
+              
+               <Card>
+                  <CardHeader>
+                      <HandHeart className="h-8 w-8 mx-auto text-primary" />
+                      <CardTitle className="font-headline mt-2">Online Giving</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                      <p>Support our mission and ministries by giving online securely and easily.</p>
+                      <Button asChild variant="link" className="mt-2">
+                          <Link href="/give">Donate Now</Link>
+                      </Button>
+                  </CardContent>
+              </Card>
+          </div>
         </div>
       </section>
     </div>

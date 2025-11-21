@@ -79,11 +79,11 @@ export function Footer() {
 
           <div>
              <h3 className="font-semibold text-foreground">Follow Us</h3>
-             <div className="flex mt-4 space-x-4">
+             <div className="flex mt-4 space-x-2">
                 {socialLinks.map((social) => (
                     <Button key={social.name} variant="ghost" size="icon" asChild>
                         <a href={social.href} aria-label={social.name}>
-                            <social.icon className="h-5 w-5" />
+                            <social.icon className="h-5 w-9" />
                         </a>
                     </Button>
                 ))}

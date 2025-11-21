@@ -78,7 +78,6 @@ export default function EventsAdminPage() {
                       <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuItem onClick={() => router.push(`/admin/events/edit/${event.id}`)}>Edit</DropdownMenuItem>
-                        <DropdownMenuItem>View Registrations</DropdownMenuItem>
                         <DropdownMenuItem className="text-destructive" onClick={() => handleDeleteClick(event)}>Delete</DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
