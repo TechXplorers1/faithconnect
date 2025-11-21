@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from 'react';
@@ -13,8 +12,28 @@ export default function SermonsPage() {
   const { sermons } = useSermons();
   const [playingSermon, setPlayingSermon] = useState<Sermon | null>(null);
   
-  const speakers = [...new Set(sermons.map(s => s.speaker))];
+  // State for search and filter
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  
+  // Get unique categories for the dropdown
   const categories = [...new Set(sermons.map(s => s.category))];
+
+  // Filter logic
+  const filteredSermons = sermons.filter((sermon) => {
+    const query = searchQuery.toLowerCase();
+    
+    // UPDATED: Removed 'description' from the search check to fix the TypeScript error.
+    // We use (value || '') to prevent crashes if a field happens to be empty/undefined.
+    const matchesSearch = 
+      (sermon.title || '').toLowerCase().includes(query) || 
+      (sermon.speaker || '').toLowerCase().includes(query) ||
+      (sermon.category || '').toLowerCase().includes(query);
+
+    const matchesCategory = selectedCategory === 'all' || sermon.category === selectedCategory;
+
+    return matchesSearch && matchesCategory;
+  });
 
   return (
     <div className="bg-background">
@@ -32,27 +51,26 @@ export default function SermonsPage() {
       </header>
       
       <div className="container mx-auto px-4 pb-8">
-        <div className="flex flex-col md:flex-row gap-4 mb-8 p-4 bg-card rounded-lg border">
+        <div className="flex flex-col md:flex-row gap-4 mb-8">
           <div className="relative flex-grow">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-            <Input placeholder="Search sermons..." className="pl-10" />
+            <Input 
+              placeholder="Search sermons..." 
+              className="pl-10" 
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
           </div>
-          <Select>
-            <SelectTrigger className="w-full md:w-[180px]">
-              <SelectValue placeholder="All Speakers" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">All Speakers</SelectItem>
-              {speakers.map(speaker => <SelectItem key={speaker} value={speaker}>{speaker}</SelectItem>)}
-            </SelectContent>
-          </Select>
-          <Select>
+          
+          <Select value={selectedCategory} onValueChange={setSelectedCategory}>
             <SelectTrigger className="w-full md:w-[180px]">
               <SelectValue placeholder="All Categories" />
             </SelectTrigger>
             <SelectContent>
                <SelectItem value="all">All Categories</SelectItem>
-               {categories.map(category => <SelectItem key={category} value={category}>{category}</SelectItem>)}
+               {categories.map(category => (
+                 <SelectItem key={category} value={category}>{category}</SelectItem>
+               ))}
             </SelectContent>
           </Select>
         </div>
@@ -60,9 +78,19 @@ export default function SermonsPage() {
       
       <main className="container mx-auto px-4 pb-16">
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {sermons.map((sermon) => (
-            <SermonCard key={sermon.id} sermon={sermon} onPlay={() => setPlayingSermon(sermon)} />
-          ))}
+          {filteredSermons.length > 0 ? (
+            filteredSermons.map((sermon) => (
+              <SermonCard 
+                key={sermon.id} 
+                sermon={sermon} 
+                onPlay={() => setPlayingSermon(sermon)} 
+              />
+            ))
+          ) : (
+            <div className="col-span-full text-center py-12">
+              <p className="text-muted-foreground text-lg">No sermons found matching your criteria.</p>
+            </div>
+          )}
         </div>
       </main>
     </div>

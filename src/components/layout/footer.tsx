@@ -1,8 +1,10 @@
+'use client';
+
 import Link from 'next/link';
 import { Logo } from '@/components/logo';
 import { NewsletterSignup } from '@/components/newsletter-signup';
-import { Button } from '../ui/button';
-import { Facebook, Twitter, Instagram, Youtube } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Facebook, Twitter, Instagram, Youtube, HandHeart } from 'lucide-react';
 
 const socialLinks = [
   { name: 'Facebook', icon: Facebook, href: '#' },
@@ -15,7 +17,7 @@ const footerLinks = [
     { title: 'About Us', href: '/about' },
     { title: 'Sermons', href: '/sermons' },
     { title: 'Events', href: '/events' },
-    { title: 'Donate', href: '/give' },
+    // Donate removed from list
     { title: 'Contact', href: '/contact' },
     { title: 'Live Stream', href: '/live' },
     { title: 'Visit', href: '/visit' },
@@ -32,7 +34,17 @@ export function Footer() {
             <p className="mt-4 text-muted-foreground max-w-sm">
               Connecting our community through faith, fellowship, and service.
             </p>
-             <div className="mt-6">
+            
+            {/* Highlighted Unique Donate Button */}
+            <div className="mt-6">
+                <Button asChild size="lg" className="bg-emerald-600 hover:bg-emerald-700 text-white border-none shadow-md w-full sm:w-auto">
+                    <Link href="/give">
+                        <HandHeart className="mr-2 h-5 w-5" /> Support Our Mission
+                    </Link>
+                </Button>
+            </div>
+
+             <div className="mt-8">
                 <h3 className="font-semibold text-foreground">Stay Connected</h3>
                 <p className="text-muted-foreground text-sm mt-2 mb-4">Sign up for our weekly newsletter.</p>
                 <NewsletterSignup />
@@ -87,5 +99,3 @@ export function Footer() {
     </footer>
   );
 }
-
-    

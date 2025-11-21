@@ -1,4 +1,3 @@
-
 'use client';
 
 import Link from 'next/link';
@@ -16,7 +15,7 @@ const navLinks = [
   { href: '/sermons', label: 'Sermons' },
   { href: '/events', label: 'Events' },
   { href: '/live', label: 'Live' },
-  { href: '/give', label: 'Donate' },
+  // Removed 'Donate' from here so it can be a standalone button
   { href: '/connect', label: 'Connect' },
   { href: '/contact', label: 'Contact' },
   { href: '/visit', label: 'Visit' },
@@ -59,9 +58,10 @@ export function Header() {
                     {link.label}
                   </Link>
                 ))}
-                 <Button asChild className="mt-4">
+                 {/* Mobile Donate Button with highlighting */}
+                 <Button asChild className="mt-4 bg-emerald-600 hover:bg-emerald-700 text-white border-none">
                    <Link href="/give" onClick={() => setIsMobileMenuOpen(false)}>
-                     <HandHeart className="mr-2" /> Donate
+                     <HandHeart className="mr-2 h-4 w-4" /> Donate
                    </Link>
                  </Button>
               </nav>
@@ -89,9 +89,16 @@ export function Header() {
             </nav>
         </div>
 
-
         <div className="flex items-center justify-end gap-2">
-             <Button asChild>
+             {/* Donate Button - Highlighted with Green Color */}
+             <Button asChild className="hidden md:flex bg-emerald-600 hover:bg-emerald-700 text-white border-none shadow-sm">
+                <Link href="/give">
+                   <HandHeart className="mr-2 h-4 w-4" /> Donate
+                </Link>
+             </Button>
+
+             {/* Login Button - Using 'outline' variant so Donate pops more */}
+             <Button asChild variant="outline">
                 <Link href="/login">Login</Link>
             </Button>
         </div>

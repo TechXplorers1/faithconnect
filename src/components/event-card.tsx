@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/componen
 import { Button } from '@/components/ui/button';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import type { Event } from '@/lib/definitions';
-import { Calendar, Clock, MapPin, ArrowRight } from 'lucide-react';
+import { Calendar, Clock, MapPin, Heart } from 'lucide-react';
 
 interface EventCardProps {
   event: Event;
@@ -14,6 +14,8 @@ export function EventCard({ event }: EventCardProps) {
   const eventImage = !event.imageUrl ? PlaceHolderImages.find(p => p.id === event.image) : null;
   const imageUrl = event.imageUrl || eventImage?.imageUrl;
 
+  // Create the support URL with event information
+  const supportUrl = `/give?support=${encodeURIComponent(event.title)}`;
 
   return (
     <Card className="flex flex-col overflow-hidden transition-all hover:shadow-xl hover:-translate-y-1">
@@ -40,8 +42,11 @@ export function EventCard({ event }: EventCardProps) {
           <p className="text-sm text-muted-foreground mt-4 line-clamp-2">{event.description}</p>
         </CardContent>
         <CardFooter>
-          <Button variant="outline" asChild>
-            <Link href="#">Learn More <ArrowRight className="ml-2 h-4 w-4" /></Link>
+          <Button asChild className="bg-primary hover:bg-primary/90">
+            <Link href={supportUrl}>
+              <Heart className="mr-2 h-4 w-4" />
+              Support this Event
+            </Link>
           </Button>
         </CardFooter>
       </div>

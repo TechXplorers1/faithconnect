@@ -65,15 +65,7 @@ export default function LiveStreamPage() {
                     <p>Join us live every Sunday at 10:00 AM for worship and a message of hope.</p>
                 </CardContent>
             </Card>
-             <Card>
-                <CardHeader>
-                    <MessageSquare className="h-8 w-8 mx-auto text-primary" />
-                    <CardTitle className="font-headline mt-2">Live Chat</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <p>Engage with our online community and pastoral team during the live service.</p>
-                </CardContent>
-            </Card>
+            
              <Card>
                 <CardHeader>
                     <HandHeart className="h-8 w-8 mx-auto text-primary" />
