@@ -79,7 +79,6 @@ export default function SermonsAdminPage() {
                       <DropdownMenuContent align="end">
                         <DropdownMenuLabel>Actions</DropdownMenuLabel>
                         <DropdownMenuItem onClick={() => router.push(`/admin/sermons/edit/${sermon.id}`)}>Edit</DropdownMenuItem>
-                        <DropdownMenuItem>View Analytics</DropdownMenuItem>
                         <DropdownMenuItem className="text-destructive" onClick={() => handleDeleteClick(sermon)}>Delete</DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>

@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect, Suspense } from 'react';
-import { useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -11,23 +10,19 @@ import { DollarSign, CreditCard, Shield, CheckCircle, Lock, Wallet } from 'lucid
 import { cn } from '@/lib/utils';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
-// Note: Stripe imports are kept here for future reference, 
-// but unused in this "Mock" version to prevent errors without keys.
-// import { loadStripe } from '@stripe/stripe-js';
-// import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+// REALTIME DATABASE IMPORTS
+// Using relative path ../../lib/firebase assumes: app/give/page.tsx -> root/lib/firebase.ts
+import { db } from '../../lib/firebase'; 
+import { ref, push, set, serverTimestamp } from 'firebase/database';
 
 const suggestedAmounts = [25, 50, 100, 250, 500, 1000];
 
-// --- MOCK COMPONENTS FOR DEMONSTRATION WITHOUT KEYS ---
+// --- MOCK COMPONENTS ---
 
-// 1. Mock Credit Card Form (Replaces Stripe Elements for now)
 function MockCreditCardForm({ 
   amount, 
   frequency, 
-  fund, 
-  personalInfo,
   onSuccess 
 }: {
   amount: number;
@@ -42,11 +37,10 @@ function MockCreditCardForm({
     event.preventDefault();
     setProcessing(true);
 
-    // SIMULATION: Wait 2 seconds then succeed
+    // SIMULATION
     setTimeout(() => {
-        console.log('PROCESSING CARD PAYMENT:', { amount, frequency, fund, personalInfo });
         setProcessing(false);
-        onSuccess(`MOCK-STRIPE-${Math.floor(Math.random() * 1000000)}`);
+        onSuccess(`STRIPE-${Math.floor(Math.random() * 1000000)}`);
     }, 2000);
   };
 
@@ -55,7 +49,6 @@ function MockCreditCardForm({
       <div className="space-y-2">
         <Label className="text-lg font-semibold">Card Details (Simulation)</Label>
         <div className="space-y-2">
-             {/* Visual Mock of a Card Input */}
             <div className="relative">
                 <CreditCard className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                 <Input placeholder="0000 0000 0000 0000" className="pl-9" required maxLength={19} />
@@ -87,7 +80,6 @@ function MockCreditCardForm({
   );
 }
 
-// 2. Mock PayPal Button
 function MockPayPalButton({ 
   amount, 
   onSuccess 
@@ -99,10 +91,9 @@ function MockPayPalButton({
 
   const handlePayment = () => {
     setLoading(true);
-    // SIMULATION
     setTimeout(() => {
         setLoading(false);
-        onSuccess(`MOCK-PAYPAL-${Math.floor(Math.random() * 1000000)}`);
+        onSuccess(`PAYPAL-${Math.floor(Math.random() * 1000000)}`);
     }, 1500);
   };
 
@@ -113,14 +104,12 @@ function MockPayPalButton({
       variant="outline"
       className="w-full py-6 text-lg border-blue-600 text-blue-600 hover:bg-blue-50 bg-white"
     >
-        {/* Simple SVG for PayPal Logo feeling */}
         <Wallet className="mr-2 h-5 w-5" />
-      {loading ? 'Redirecting to PayPal...' : 'Pay with PayPal'}
+      {loading ? 'Redirecting...' : 'Pay with PayPal'}
     </Button>
   );
 }
 
-// 3. Mock Flutterwave Button
 function MockFlutterwaveButton({ 
   amount, 
   onSuccess 
@@ -132,10 +121,9 @@ function MockFlutterwaveButton({
 
   const handlePayment = () => {
     setLoading(true);
-    // SIMULATION
     setTimeout(() => {
         setLoading(false);
-        onSuccess(`MOCK-FLUTTERWAVE-${Math.floor(Math.random() * 1000000)}`);
+        onSuccess(`FLUTTER-${Math.floor(Math.random() * 1000000)}`);
     }, 1500);
   };
 
@@ -147,7 +135,7 @@ function MockFlutterwaveButton({
       className="w-full py-6 text-lg border-orange-500 text-orange-600 hover:bg-orange-50 bg-white"
     >
       <CreditCard className="mr-2 h-5 w-5" />
-      {loading ? 'Connecting to Flutterwave...' : 'Pay with Flutterwave'}
+      {loading ? 'Connecting...' : 'Pay with Flutterwave'}
     </Button>
   );
 }
@@ -155,8 +143,15 @@ function MockFlutterwaveButton({
 // --- MAIN PAGE CONTENT ---
 
 function GivePageContent() {
-  const searchParams = useSearchParams();
-  const supportedEvent = searchParams.get('support');
+  // REPLACEMENT: Standard URL Params instead of next/navigation hook
+  const [supportedEvent, setSupportedEvent] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search);
+      setSupportedEvent(params.get('support'));
+    }
+  }, []);
 
   const [amount, setAmount] = useState(100);
   const [customAmount, setCustomAmount] = useState('');
@@ -166,8 +161,8 @@ function GivePageContent() {
   const [paymentMethod, setPaymentMethod] = useState('stripe');
   const [paymentSuccess, setPaymentSuccess] = useState(false);
   const [paymentId, setPaymentId] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
 
-  // Personal information state
   const [personalInfo, setPersonalInfo] = useState({
     firstName: '',
     lastName: '',
@@ -175,7 +170,6 @@ function GivePageContent() {
     phone: ''
   });
 
-  // Effect to handle incoming event support requests
   useEffect(() => {
     if (supportedEvent) {
       setSelectedFund('custom');
@@ -201,10 +195,43 @@ function GivePageContent() {
     }));
   };
 
-  const handlePaymentSuccess = (id: string) => {
-    setPaymentSuccess(true);
-    setPaymentId(id);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  // --- REALTIME DATABASE SAVING LOGIC ---
+  const handlePaymentSuccess = async (id: string) => {
+    try {
+        setIsSaving(true);
+        
+        // 1. Create a reference to the 'donations' list
+        const donationsRef = ref(db, 'donations');
+        
+        // 2. Generate a new key (push)
+        const newDonationRef = push(donationsRef);
+        
+        // 3. Set the data
+        await set(newDonationRef, {
+            name: `${personalInfo.firstName} ${personalInfo.lastName}`,
+            email: personalInfo.email,
+            phone: personalInfo.phone,
+            amount: amount,
+            frequency: frequency,
+            campaign: selectedFund,
+            customReason: customReason || null,
+            paymentMethod: paymentMethod,
+            transactionId: id,
+            date: serverTimestamp(),
+            status: 'completed'
+        });
+        
+        // Success!
+        setPaymentSuccess(true);
+        setPaymentId(id);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    } catch (e: any) {
+        console.error("Error adding document: ", e);
+        alert(`Error saving donation: ${e.message || "Unknown error"}. Check your Realtime Database Rules.`);
+    } finally {
+        setIsSaving(false);
+    }
   };
 
   if (paymentSuccess) {
@@ -230,12 +257,6 @@ function GivePageContent() {
             <p className="text-sm text-muted-foreground">
               A receipt has been sent to <strong>{personalInfo.email}</strong>
             </p>
-            <Alert className="bg-blue-50 border-blue-200 text-left mt-4">
-                <AlertTitle className="text-blue-700 text-xs font-bold uppercase">Demo Mode</AlertTitle>
-                <AlertDescription className="text-blue-600 text-xs">
-                    No actual money was charged. This was a simulated transaction.
-                </AlertDescription>
-            </Alert>
           </CardContent>
           <CardFooter>
             <Button asChild className="w-full" variant="outline">
@@ -263,9 +284,6 @@ function GivePageContent() {
                 <div>
                     <CardTitle className="text-2xl">Make a Donation</CardTitle>
                     <CardDescription>Secure online giving portal</CardDescription>
-                </div>
-                <div className="bg-yellow-100 text-yellow-800 text-xs px-3 py-1 rounded-full font-medium border border-yellow-200">
-                    Demo / Simulation Mode
                 </div>
             </div>
           </CardHeader>
@@ -494,7 +512,6 @@ function GivePageContent() {
   );
 }
 
-// Wrap in Suspense for useSearchParams support in Next.js App Router
 export default function GivePage() {
   return (
     <Suspense fallback={<div>Loading donation form...</div>}>

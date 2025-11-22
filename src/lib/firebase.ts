@@ -1,7 +1,6 @@
-// lib/firebase.ts (or wherever your file is located)
 import { initializeApp, getApps, getApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-// import { getAnalytics } from "firebase/analytics"; // Analytics often causes issues in SSR, load optionally if needed
+import { getDatabase } from "firebase/database"; 
 
 const firebaseConfig = {
   apiKey: "AIzaSyDuDxjPniPhb-WySYurUgHCpH6PGJHs164",
@@ -14,11 +13,12 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-// 1. Check if apps are already initialized (prevents "App already exists" error)
 const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
 
-// 2. Initialize and Export Auth
+// Initialize Auth
 export const auth = getAuth(app);
 
-// Export app if needed elsewhere
+// Initialize and Export Realtime Database
+export const db = getDatabase(app);
+
 export default app;
