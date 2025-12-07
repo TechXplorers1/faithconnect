@@ -1,152 +1,38 @@
-'use client';
-
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-import { Button } from '@/components/ui/button';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { useToast } from '@/hooks/use-toast';
-import { useEvents } from '@/context/event-context';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowLeft } from 'lucide-react';
+import { EVENTS } from '@/lib/placeholder-data';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { useRouter, useParams } from 'next/navigation';
-import { useEffect } from 'react';
-import { Event } from '@/lib/definitions';
+import { ArrowLeft } from 'lucide-react';
 
-const eventSchema = z.object({
-  title: z.string().min(3, 'Title must be at least 3 characters long'),
-  date: z.string().min(1, 'Date is required'),
-  time: z.string().min(1, 'Time is required'),
-  location: z.string().min(3, 'Location is required'),
-  description: z.string().min(10, 'Description is required'),
-  image: z.any().optional(),
-});
+export default function EventDetail({ params }: { params: { id: string } }) {
+  const event = EVENTS.find(e => e.id === params.id);
 
-export default function EditEventPage() {
-  const { toast } = useToast();
-  const { updateEvent, getEventById } = useEvents();
-  const router = useRouter();
-  const params = useParams();
-  const eventId = params.id as string;
-  const event = getEventById(eventId);
-
-  const form = useForm<z.infer<typeof eventSchema>>({
-    resolver: zodResolver(eventSchema),
-    defaultValues: {
-      title: '',
-      date: '',
-      time: '',
-      location: '',
-      description: '',
-    },
-  });
-
-  useEffect(() => {
-    if (event) {
-        form.reset({
-            ...event,
-            date: event.date.split('T')[0], // Format date for input
-        });
-    }
-  }, [event, form]);
-
-  // If event is not found (e.g. after a refresh if data isn't persistent), show this message
-  if (!event) {
-    return <div className="p-8">Event not found.</div>;
-  }
-
-  function onSubmit(values: z.infer<typeof eventSchema>) {
-    // FIX: Explicitly check if event exists to satisfy TypeScript
-    if (!event) return;
-
-    const imageFile = values.image && values.image.length > 0 ? values.image[0] : undefined;
-
-    const processUpdate = (imageUrl?: string, imageId?: string) => {
-        const updatedEvent: Event = {
-            ...event,
-            ...values,
-            imageUrl: imageUrl,
-            image: imageId || '',
-        };
-        if(imageFile) {
-            updatedEvent.image = '';
-        }
-
-        updateEvent(updatedEvent);
-        
-        toast({
-          title: 'Event Updated!',
-          description: `The event "${values.title}" has been successfully updated.`,
-        });
-
-        router.push('/admin/events');
-    };
-
-    if (imageFile) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-            processUpdate(reader.result as string, undefined);
-        };
-        reader.readAsDataURL(imageFile);
-    } else {
-        processUpdate(event.imageUrl, event.image);
-    }
-  }
+  if (!event) return notFound();
 
   return (
-     <div className="w-full max-w-full mx-auto p-4 space-y-4">
-       <div className="flex items-center gap-4">
-        <Button variant="outline" size="icon" asChild>
-            <Link href="/admin/events"><ArrowLeft /></Link>
-        </Button>
-        <h1 className="text-3xl font-bold tracking-tight font-headline">Edit Event</h1>
+    <div className="max-w-4xl mx-auto p-4 md:p-6 space-y-8">
+      <div className="flex items-center gap-4">
+        <Link href="/admin/events" className="text-gray-500 hover:text-gray-900">
+          <ArrowLeft /> Back
+        </Link>
+        <h1 className="text-3xl font-bold tracking-tight font-headline">{event.title}</h1>
       </div>
 
       <Card>
         <CardHeader>
-            <CardTitle>Event Details</CardTitle>
-            <CardDescription>Update the details for your event.</CardDescription>
+          <CardTitle>Event Details</CardTitle>
         </CardHeader>
-        <CardContent>
-             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-                    <FormField control={form.control} name="title" render={({ field }) => (
-                    <FormItem><FormLabel>Title</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
-                    )} />
-                    <div className="grid md:grid-cols-2 gap-4">
-                        <FormField control={form.control} name="date" render={({ field }) => (
-                        <FormItem><FormLabel>Date</FormLabel><FormControl><Input type="date" {...field} /></FormControl><FormMessage /></FormItem>
-                        )} />
-                        <FormField control={form.control} name="time" render={({ field }) => (
-                        <FormItem><FormLabel>Time</FormLabel><FormControl><Input type="time" {...field} /></FormControl><FormMessage /></FormItem>
-                        )} />
-                    </div>
-                    <FormField control={form.control} name="location" render={({ field }) => (
-                    <FormItem><FormLabel>Location</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
-                    )} />
-                    <FormField control={form.control} name="description" render={({ field }) => (
-                    <FormItem><FormLabel>Description</FormLabel><FormControl><Textarea {...field} /></FormControl><FormMessage /></FormItem>
-                    )} />
-                    <FormField control={form.control} name="image" render={({ field }) => (<FormItem><FormLabel>Cover Image (leave blank to keep current)</FormLabel><FormControl><Input type="file" accept="image/*" {...form.register('image')} /></FormControl><FormMessage /></FormItem>)} />
-                    
-                    <div className="flex justify-end gap-2">
-                         <Button variant="outline" type="button" onClick={() => router.back()}>Cancel</Button>
-                         <Button type="submit">Save Changes</Button>
-                    </div>
-                </form>
-            </Form>
+        <CardContent className="space-y-4">
+          <p><strong>Date:</strong> {event.date}</p>
+          <p><strong>Location:</strong> {event.location}</p>
+          <p><strong>Description:</strong> {event.description}</p>
         </CardContent>
       </Card>
     </div>
   );
+}
+
+// Required for static export
+export async function generateStaticParams() {
+  return EVENTS.map(e => ({ id: e.id }));
 }

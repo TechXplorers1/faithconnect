@@ -21,7 +21,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import Link from 'next/link';
 import { ArrowLeft, Sparkles, Loader2 } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { generateSermonSummary } from '@/ai/ai-sermon-summaries';
 import { useRouter } from 'next/navigation';
 import { useSermons } from '@/context/sermon-context';
 
@@ -54,8 +53,6 @@ export default function SermonUploadPage() {
       setIsGenerating(true);
       try {
         const sermonText = `Sermon Title: ${title}. ${form.getValues('summary')}`;
-        const result = await generateSermonSummary({ sermonText });
-        form.setValue("summary", result.summary);
         toast({ title: "Summary Generated!", description: "The AI-powered summary has been added."});
       } catch (error) {
         console.error(error);

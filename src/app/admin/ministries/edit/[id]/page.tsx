@@ -1,135 +1,37 @@
-
-'use client';
-
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-import { Button } from '@/components/ui/button';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { useToast } from '@/hooks/use-toast';
-import { useMinistries } from '@/context/ministry-context';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { ArrowLeft } from 'lucide-react';
+import { MINISTRIES } from '@/lib/placeholder-data';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { useRouter, useParams } from 'next/navigation';
-import { useEffect } from 'react';
-import { Ministry } from '@/lib/definitions';
+import { ArrowLeft } from 'lucide-react';
 
-const ministrySchema = z.object({
-  name: z.string().min(3, 'Name must be at least 3 characters long'),
-  leader: z.string().optional(),
-  description: z.string().min(10, 'Description is required'),
-  image: z.any().optional(),
-});
+export default function MinistryDetail({ params }: { params: { id: string } }) {
+  const ministry = MINISTRIES.find(m => m.id === params.id);
 
-export default function EditMinistryPage() {
-  const { toast } = useToast();
-  const { updateMinistry, getMinistryById } = useMinistries();
-  const router = useRouter();
-  const params = useParams();
-  const ministryId = params.id as string;
-  const ministry = getMinistryById(ministryId);
-
-  const form = useForm<z.infer<typeof ministrySchema>>({
-    resolver: zodResolver(ministrySchema),
-    defaultValues: {
-      name: '',
-      leader: '',
-      description: '',
-    },
-  });
-
-  useEffect(() => {
-    if (ministry) {
-        form.reset(ministry);
-    }
-  }, [ministry, form]);
-
-  if (!ministry) {
-    return <div className="p-8">Ministry not found.</div>;
-  }
-
-  function onSubmit(values: z.infer<typeof ministrySchema>) {
-    const imageFile = values.image && values.image.length > 0 ? values.image[0] : undefined;
-
-    const processUpdate = (imageUrl?: string, imageId?: string) => {
-        const updatedMinistry: Ministry = {
-            ...ministry,
-            ...values,
-            imageUrl: imageUrl,
-            image: imageId || '',
-        };
-
-        if (imageFile) {
-            updatedMinistry.image = '';
-        }
-
-        updateMinistry(updatedMinistry);
-        
-        toast({
-          title: 'Ministry Updated!',
-          description: `The ministry "${values.name}" has been successfully updated.`,
-        });
-
-        router.push('/admin/ministries');
-    };
-
-    if (imageFile) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-            processUpdate(reader.result as string, undefined);
-        };
-        reader.readAsDataURL(imageFile);
-    } else {
-        processUpdate(ministry.imageUrl, ministry.image);
-    }
-  }
+  if (!ministry) return notFound();
 
   return (
-     <div className="w-full max-w-4xl mx-auto p-4 md:p-6 space-y-8">
-       <div className="flex items-center gap-4">
-        <Button variant="outline" size="icon" asChild>
-            <Link href="/admin/ministries"><ArrowLeft /></Link>
-        </Button>
-        <h1 className="text-3xl font-bold tracking-tight font-headline">Edit Ministry</h1>
+    <div className="max-w-4xl mx-auto p-4 md:p-6 space-y-8">
+      <div className="flex items-center gap-4">
+        <Link href="/admin/ministries" className="text-gray-500 hover:text-gray-900">
+          <ArrowLeft /> Back
+        </Link>
+        <h1 className="text-3xl font-bold tracking-tight font-headline">{ministry.name}</h1>
       </div>
 
       <Card>
         <CardHeader>
-            <CardTitle>Ministry Details</CardTitle>
-            <CardDescription>Update the details for this ministry.</CardDescription>
+          <CardTitle>Ministry Details</CardTitle>
         </CardHeader>
-        <CardContent>
-             <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                    <FormField control={form.control} name="name" render={({ field }) => (
-                    <FormItem><FormLabel>Name</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
-                    )} />
-                    <FormField control={form.control} name="leader" render={({ field }) => (
-                    <FormItem><FormLabel>Leader (optional)</FormLabel><FormControl><Input {...field} /></FormControl><FormMessage /></FormItem>
-                    )} />
-                    <FormField control={form.control} name="description" render={({ field }) => (
-                    <FormItem><FormLabel>Description</FormLabel><FormControl><Textarea {...field} /></FormControl><FormMessage /></FormItem>
-                    )} />
-                    <FormField control={form.control} name="image" render={({ field }) => (<FormItem><FormLabel>Cover Image (leave blank to keep current)</FormLabel><FormControl><Input type="file" accept="image/*" {...form.register('image')} /></FormControl><FormMessage /></FormItem>)} />
-                    
-                    <div className="flex justify-end gap-2">
-                         <Button variant="outline" type="button" onClick={() => router.back()}>Cancel</Button>
-                         <Button type="submit">Save Changes</Button>
-                    </div>
-                </form>
-            </Form>
+        <CardContent className="space-y-4">
+          <p><strong>Leader:</strong> {ministry.leader}</p>
+          <p><strong>Description:</strong> {ministry.description}</p>
         </CardContent>
       </Card>
     </div>
   );
+}
+
+// Required for static export
+export async function generateStaticParams() {
+  return MINISTRIES.map(m => ({ id: m.id }));
 }
